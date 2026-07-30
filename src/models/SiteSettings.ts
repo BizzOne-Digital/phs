@@ -3,7 +3,7 @@ import { Schema, models, model } from "mongoose";
 const SiteSettingsSchema = new Schema(
   {
     singletonKey: { type: String, default: "site", unique: true },
-    businessName: { type: String, default: "VNEC" },
+    businessName: { type: String, default: "Premier Home Services" },
     logoUrl: { type: String, default: "/logo.svg" },
     faviconUrl: { type: String, default: "/favicon.svg" },
     phone: { type: String, default: "437-256-1028" },
@@ -33,7 +33,7 @@ const SiteSettingsSchema = new Schema(
     contactFormRecipient: { type: String, default: "vnecconstruction@gmail.com" },
     defaultSeoTitle: {
       type: String,
-      default: "VNEC | Licensed Electrical, HVAC & Plumbing — Greater Toronto Area",
+      default: "Premier Home Services | Licensed Electrical, HVAC & Plumbing — Greater Toronto Area",
     },
     defaultSeoDescription: {
       type: String,
@@ -42,7 +42,7 @@ const SiteSettingsSchema = new Schema(
     },
     analyticsId: String,
     mapEmbed: String,
-    copyrightText: { type: String, default: "© VNEC. All rights reserved." },
+    copyrightText: { type: String, default: "© Premier Home Services. All rights reserved." },
     socialLinks: {
       facebook: String,
       instagram: String,

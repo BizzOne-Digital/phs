@@ -2,7 +2,7 @@ import { PLACEHOLDER_IMAGES, IMAGE_ALTS } from "@/lib/placeholders";
 import type { Service, PricingItem, Testimonial, BlogPost, SiteSettings } from "@/types";
 
 export const BUSINESS = {
-  name: "VNEC",
+  name: "Premier Home Services",
   phone: "437-256-1028",
   email: "vnecconstruction@gmail.com",
   serviceArea: "Greater Toronto Area, Ontario",
@@ -109,10 +109,10 @@ export const FALLBACK_SETTINGS: SiteSettings = {
   specialOfferActive: true,
   footerDescription:
     "Licensed Electrical, HVAC & Plumbing experts serving the Greater Toronto Area with scheduled appointments and 24/7 emergency support.",
-  defaultSeoTitle: "VNEC | Licensed Electrical, HVAC & Plumbing — Greater Toronto Area",
+  defaultSeoTitle: "Premier Home Services | Licensed Electrical, HVAC & Plumbing — Greater Toronto Area",
   defaultSeoDescription:
     "Fast, reliable electrical, HVAC, and plumbing services from licensed technicians across the GTA. Scheduled appointments and 24/7 emergency repairs.",
-  copyrightText: "© VNEC. All rights reserved.",
+  copyrightText: "© Premier Home Services. All rights reserved.",
   pricingDisclaimer: BUSINESS.pricingDisclaimer,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
@@ -132,7 +132,7 @@ export const FALLBACK_SERVICES: Service[] = [
     shortDescription:
       "Rapid response for power outages, sparking outlets, hot panels, and urgent electrical faults.",
     fullDescription:
-      "When electrical problems create safety risks or leave your property without power, VNEC provides 24/7 emergency electrical support across the Greater Toronto Area. Licensed technicians diagnose urgent issues and restore safer conditions as quickly as possible.",
+      "When electrical problems create safety risks or leave your property without power, Premier Home Services provides 24/7 emergency electrical support across the Greater Toronto Area. Licensed technicians diagnose urgent issues and restore safer conditions as quickly as possible.",
     heroHeading: "24/7 Emergency Electrical Support Across the GTA",
     heroSubheading:
       "Power outages, sparking outlets, hot panels, and sudden electrical faults—help when you need it.",
@@ -158,7 +158,7 @@ export const FALLBACK_SERVICES: Service[] = [
     whyProfessional:
       "Electrical emergencies can escalate quickly. A licensed technician can identify hazards, isolate risks, and complete repairs safely—without guesswork.",
     safetyStatement:
-      "Do not touch exposed wiring or damaged equipment. If there is a fire, smoke, or immediate danger, leave the property and contact emergency services before calling VNEC.",
+      "Do not touch exposed wiring or damaged equipment. If there is a fire, smoke, or immediate danger, leave the property and contact emergency services before calling Premier Home Services.",
     processSteps: [...PROCESS_STEPS],
     faqs: [
       {
@@ -174,7 +174,7 @@ export const FALLBACK_SERVICES: Service[] = [
     relatedServiceSlugs: ["electrical-services", "24-7-emergency-hvac-services"],
     startingPriceLabel: "Contact for starting price",
     ctaLabel: "Request Emergency Service",
-    seoTitle: "24/7 Emergency Electrician | VNEC Greater Toronto Area",
+    seoTitle: "24/7 Emergency Electrician | Premier Home Services Greater Toronto Area",
     seoDescription:
       "Urgent electrical repairs for GTA homes and businesses. Call 437-256-1028 for 24/7 emergency electrical support.",
     displayOrder: 1,
@@ -191,7 +191,7 @@ export const FALLBACK_SERVICES: Service[] = [
     shortDescription:
       "Repairs, installations, panel work, lighting, outlets, wiring, inspections, and maintenance.",
     fullDescription:
-      "VNEC provides residential and commercial electrical services across the GTA—from troubleshooting and repairs to installations, lighting, outlets, switches, wiring, and panel-related work performed by licensed technicians.",
+      "Premier Home Services provides residential and commercial electrical services across the GTA—from troubleshooting and repairs to installations, lighting, outlets, switches, wiring, and panel-related work performed by licensed technicians.",
     heroHeading: "Professional Electrical Services for Homes & Businesses",
     heroSubheading:
       "Reliable repairs, installations, and maintenance with clear communication and quality workmanship.",
@@ -230,7 +230,7 @@ export const FALLBACK_SERVICES: Service[] = [
     relatedServiceSlugs: ["24-7-emergency-electrical-services", "hvac-services"],
     startingPriceLabel: "Contact for starting price",
     ctaLabel: "Request Electrical Service",
-    seoTitle: "Electrical Services GTA | VNEC Licensed Electricians",
+    seoTitle: "Electrical Services GTA | Premier Home Services Licensed Electricians",
     seoDescription:
       "Electrical repairs, installations, lighting, panels, and maintenance across the Greater Toronto Area.",
     displayOrder: 2,
@@ -247,7 +247,7 @@ export const FALLBACK_SERVICES: Service[] = [
     shortDescription:
       "Urgent help for no heat, no cooling, system shutdowns, unusual noises, and equipment failure.",
     fullDescription:
-      "When heating or cooling fails—especially in extreme weather—VNEC provides 24/7 emergency HVAC diagnostics and repair support for residential and commercial properties across the GTA.",
+      "When heating or cooling fails—especially in extreme weather—Premier Home Services provides 24/7 emergency HVAC diagnostics and repair support for residential and commercial properties across the GTA.",
     heroHeading: "24/7 Emergency HVAC Response",
     heroSubheading:
       "No heat, no cooling, system shutdowns, and suspected equipment failure—help when comfort and safety matter.",
@@ -267,7 +267,7 @@ export const FALLBACK_SERVICES: Service[] = [
     whyProfessional:
       "HVAC emergencies affect comfort, indoor air, and sometimes safety. Professional diagnostics help restore systems correctly and quickly.",
     safetyStatement:
-      "If you suspect a gas leak or carbon monoxide danger, leave the property immediately and contact the relevant emergency or utility service before calling VNEC.",
+      "If you suspect a gas leak or carbon monoxide danger, leave the property immediately and contact the relevant emergency or utility service before calling Premier Home Services.",
     processSteps: [...PROCESS_STEPS],
     faqs: [
       {
@@ -279,7 +279,7 @@ export const FALLBACK_SERVICES: Service[] = [
     relatedServiceSlugs: ["hvac-services", "24-7-emergency-plumbing-services"],
     startingPriceLabel: "Contact for starting price",
     ctaLabel: "Request Emergency HVAC",
-    seoTitle: "24/7 Emergency HVAC | VNEC Greater Toronto Area",
+    seoTitle: "24/7 Emergency HVAC | Premier Home Services Greater Toronto Area",
     seoDescription:
       "Emergency heating and cooling support for GTA properties. Call 437-256-1028 anytime.",
     displayOrder: 3,
@@ -296,7 +296,7 @@ export const FALLBACK_SERVICES: Service[] = [
     shortDescription:
       "Heating, cooling, diagnostics, repairs, installation support, maintenance, and thermostat service.",
     fullDescription:
-      "Keep your property comfortable year-round with VNEC HVAC services—diagnostics, repairs, maintenance, ventilation support, and thermostat services for homes and businesses in the Greater Toronto Area.",
+      "Keep your property comfortable year-round with Premier Home Services HVAC services—diagnostics, repairs, maintenance, ventilation support, and thermostat services for homes and businesses in the Greater Toronto Area.",
     heroHeading: "Heating, Cooling & HVAC Care for the GTA",
     heroSubheading:
       "Reliable HVAC service focused on performance, comfort, and clear recommendations.",
@@ -335,7 +335,7 @@ export const FALLBACK_SERVICES: Service[] = [
     relatedServiceSlugs: ["24-7-emergency-hvac-services", "plumbing-services"],
     startingPriceLabel: "Contact for starting price",
     ctaLabel: "Request HVAC Service",
-    seoTitle: "HVAC Services GTA | Heating & Cooling | VNEC",
+    seoTitle: "HVAC Services GTA | Heating & Cooling | Premier Home Services",
     seoDescription:
       "Heating, cooling, diagnostics, repairs, and maintenance for Greater Toronto Area properties.",
     displayOrder: 4,
@@ -352,7 +352,7 @@ export const FALLBACK_SERVICES: Service[] = [
     shortDescription:
       "Burst pipes, major leaks, overflowing fixtures, sewer backups, and urgent water emergencies.",
     fullDescription:
-      "Plumbing emergencies can cause rapid water damage. VNEC provides 24/7 emergency plumbing support for burst pipes, major leaks, backups, and loss of water across the Greater Toronto Area.",
+      "Plumbing emergencies can cause rapid water damage. Premier Home Services provides 24/7 emergency plumbing support for burst pipes, major leaks, backups, and loss of water across the Greater Toronto Area.",
     heroHeading: "24/7 Emergency Plumbing When Every Minute Matters",
     heroSubheading:
       "Burst pipes, major leaks, overflowing fixtures, and backups—urgent help for GTA properties.",
@@ -389,7 +389,7 @@ export const FALLBACK_SERVICES: Service[] = [
     relatedServiceSlugs: ["plumbing-services", "24-7-emergency-electrical-services"],
     startingPriceLabel: "Contact for starting price",
     ctaLabel: "Request Emergency Plumbing",
-    seoTitle: "24/7 Emergency Plumber | VNEC Greater Toronto Area",
+    seoTitle: "24/7 Emergency Plumber | Premier Home Services Greater Toronto Area",
     seoDescription:
       "Urgent plumbing repairs for burst pipes, leaks, and backups across the GTA. Call 437-256-1028.",
     displayOrder: 5,
@@ -406,7 +406,7 @@ export const FALLBACK_SERVICES: Service[] = [
     shortDescription:
       "Leak repairs, fixtures, pipe work, drain-related service, maintenance, and troubleshooting.",
     fullDescription:
-      "From leak repairs and fixture installation to pipe work, drain-related service, and maintenance, VNEC delivers dependable plumbing solutions for residential and commercial properties in the GTA.",
+      "From leak repairs and fixture installation to pipe work, drain-related service, and maintenance, Premier Home Services delivers dependable plumbing solutions for residential and commercial properties in the GTA.",
     heroHeading: "Reliable Plumbing Services for Homes & Businesses",
     heroSubheading:
       "Professional leak repairs, installations, maintenance, and troubleshooting across the GTA.",
@@ -444,7 +444,7 @@ export const FALLBACK_SERVICES: Service[] = [
     relatedServiceSlugs: ["24-7-emergency-plumbing-services", "electrical-services"],
     startingPriceLabel: "Contact for starting price",
     ctaLabel: "Request Plumbing Service",
-    seoTitle: "Plumbing Services GTA | VNEC Licensed Plumbers",
+    seoTitle: "Plumbing Services GTA | Premier Home Services Licensed Plumbers",
     seoDescription:
       "Plumbing repairs, fixtures, pipe work, and maintenance for Greater Toronto Area properties.",
     displayOrder: 6,
@@ -528,7 +528,7 @@ export const FALLBACK_BLOGS: BlogPost[] = [
     content:
       "<p>Electrical issues can escalate quickly. If you notice burning smells, sparking, hot panels, exposed wiring, or outages limited to your property, treat the situation seriously.</p><p>Do not touch damaged wiring. If there is fire or immediate danger, leave and contact emergency services first. Then call a licensed electrician for urgent support.</p>",
     featuredImage: img("electricalPanel"),
-    author: "VNEC Team",
+    author: "PHS Team",
     category: "Electrical",
     tags: ["emergency", "electrical", "safety"],
     status: "published",
@@ -546,7 +546,7 @@ export const FALLBACK_BLOGS: BlogPost[] = [
     content:
       "<p>HVAC emergencies often involve complete loss of heat or cooling, sudden shutdowns, unusual burning smells, or equipment that will not restart.</p><p>If you suspect a gas leak or carbon monoxide risk, leave the property and contact the utility or emergency service before calling for HVAC support.</p>",
     featuredImage: img("furnace"),
-    author: "VNEC Team",
+    author: "PHS Team",
     category: "HVAC",
     tags: ["emergency", "hvac"],
     status: "published",
@@ -564,7 +564,7 @@ export const FALLBACK_BLOGS: BlogPost[] = [
     content:
       "<p>During a plumbing emergency, act quickly but safely. If it is safe, shut off the main water supply, move belongings away from water, and avoid electrical contact near standing water.</p><p>Avoid DIY repairs that could worsen damage. Call a licensed plumber for burst pipes, major leaks, backups, and overflowing fixtures.</p>",
     featuredImage: img("pipes"),
-    author: "VNEC Team",
+    author: "PHS Team",
     category: "Plumbing",
     tags: ["emergency", "plumbing"],
     status: "published",

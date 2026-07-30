@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page?.seoTitle || "Terms and Conditions",
     description:
       page?.seoDescription ||
-      "Terms of use for the VNEC website and general guidance regarding service requests in the Greater Toronto Area.",
+      "Terms of use for the Premier Home Services website and general guidance regarding service requests in the Greater Toronto Area.",
   };
 }
 
@@ -43,7 +43,7 @@ export default async function TermsPage() {
               key: "website-use",
               type: "content",
               heading: "Website use",
-              body: "Content on this website is provided for general information about VNEC electrical, HVAC, and plumbing services in the Greater Toronto Area.",
+              body: "Content on this website is provided for general information about Premier Home Services electrical, HVAC, and plumbing services in the Greater Toronto Area.",
               visible: true,
               order: 1,
             },

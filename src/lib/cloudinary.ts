@@ -44,7 +44,7 @@ function toDataUri(input: Buffer | string, mime = "image/jpeg"): string {
  */
 export async function uploadImage(
   input: Buffer | string,
-  folder = "vnec",
+  folder = "phs",
   options?: { mime?: string }
 ): Promise<UploadImageResult> {
   const dataUri = toDataUri(input, options?.mime);

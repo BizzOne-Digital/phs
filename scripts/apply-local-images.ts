@@ -26,7 +26,7 @@ async function main() {
   const about = await Page.findOne({ slug: "about" });
   if (about?.sections) {
     const sections = about.sections as unknown as Array<Record<string, unknown>>;
-    setSectionImages(sections, "hero", [...SITE_IMAGES.about.hero], "About VNEC");
+    setSectionImages(sections, "hero", [...SITE_IMAGES.about.hero], "About Premier Home Services");
     setSectionImages(sections, "mission", [...SITE_IMAGES.about.mission], "Our mission");
     setSectionImages(sections, "what-we-do", [...SITE_IMAGES.about.whatWeDo], "What we do");
     setSectionImages(sections, "story", [...SITE_IMAGES.about.story], "Our story");
@@ -100,7 +100,7 @@ async function main() {
       sections,
       "about-preview",
       [SITE_IMAGES.home.aboutMain, SITE_IMAGES.home.process],
-      "About VNEC"
+      "About Premier Home Services"
     );
     home.markModified("sections");
     home.ogImage = SITE_IMAGES.home.areasSkyline;

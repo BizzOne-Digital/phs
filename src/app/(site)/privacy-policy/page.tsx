@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page?.seoTitle || "Privacy Policy",
     description:
       page?.seoDescription ||
-      "How VNEC collects and uses contact and service-request information for customers in the Greater Toronto Area.",
+      "How Premier Home Services collects and uses contact and service-request information for customers in the Greater Toronto Area.",
   };
 }
 
@@ -43,7 +43,7 @@ export default async function PrivacyPolicyPage() {
               key: "overview",
               type: "content",
               heading: "Overview",
-              body: "VNEC collects information you submit through contact and service-request forms to respond to inquiries and schedule service. We do not sell your personal information.",
+              body: "Premier Home Services collects information you submit through contact and service-request forms to respond to inquiries and schedule service. We do not sell your personal information.",
               visible: true,
               order: 1,
             },

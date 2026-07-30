@@ -29,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: {
       default: settings.defaultSeoTitle || FALLBACK_SETTINGS.defaultSeoTitle!,
-      template: `%s | ${settings.businessName || "VNEC"}`,
+      template: `%s | ${settings.businessName || "Premier Home Services"}`,
     },
     description:
       settings.defaultSeoDescription || FALLBACK_SETTINGS.defaultSeoDescription,

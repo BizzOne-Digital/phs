@@ -16,7 +16,7 @@ import type { BlogPost } from "@/types";
 export const metadata: Metadata = {
   title: "Blog",
   description:
-    "Practical electrical, HVAC, and plumbing guidance for Greater Toronto Area homeowners and property managers from VNEC.",
+    "Practical electrical, HVAC, and plumbing guidance for Greater Toronto Area homeowners and property managers from Premier Home Services.",
 };
 
 const CATEGORIES = ["All", "Electrical", "HVAC", "Plumbing", "Maintenance"];

@@ -14,7 +14,7 @@ import { phoneHref } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact VNEC for electrical, HVAC, and plumbing service across the Greater Toronto Area. Call 437-256-1028.",
+    "Contact Premier Home Services for electrical, HVAC, and plumbing service across the Greater Toronto Area. Call 437-256-1028.",
 };
 
 const FAQS = [
@@ -58,7 +58,7 @@ export default async function ContactPage() {
           <div className="mt-6 grid items-center gap-8 lg:grid-cols-2">
             <SectionHeading
               eyebrow="Contact"
-              title="Talk with the VNEC team"
+              title="Talk with the Premier Home Services team"
               description="Reach us for scheduled work or 24/7 emergencies across the Greater Toronto Area."
             />
             <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">

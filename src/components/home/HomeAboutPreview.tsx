@@ -54,7 +54,7 @@ export function HomeAboutPreview({
         </Reveal>
         <Reveal direction="right" delay={0.12}>
           <SectionHeading
-            eyebrow={eyebrow || "About VNEC"}
+            eyebrow={eyebrow || "About Premier Home Services"}
             title={title || "Built around reliability, safety, and clear communication"}
             description={
               description ||

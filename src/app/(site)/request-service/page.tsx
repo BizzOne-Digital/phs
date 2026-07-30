@@ -12,7 +12,7 @@ import { SITE_IMAGES } from "@/lib/site-images";
 export const metadata: Metadata = {
   title: "Request Service",
   description:
-    "Request electrical, HVAC, or plumbing service from VNEC across the Greater Toronto Area—including 24/7 emergency support.",
+    "Request electrical, HVAC, or plumbing service from Premier Home Services across the Greater Toronto Area—including 24/7 emergency support.",
 };
 
 type Props = {

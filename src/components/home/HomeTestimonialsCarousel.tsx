@@ -20,7 +20,7 @@ export function HomeTestimonialsCarousel({ testimonials }: { testimonials: Testi
       <Container className="px-4">
         <SectionHeading
           eyebrow="Testimonials"
-          title="What clients say about working with VNEC"
+          title="What clients say about working with Premier Home Services"
           description="Sample and live testimonials are managed in the admin portal."
           align="center"
         />

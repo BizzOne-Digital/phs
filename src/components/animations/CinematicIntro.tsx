@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Droplets, Wind, Zap } from "lucide-react";
 
-const STORAGE_KEY = "vnec-intro-seen";
+const STORAGE_KEY = "phs-intro-seen";
 
 export function CinematicIntro() {
   const [visible, setVisible] = useState(false);
@@ -47,7 +47,7 @@ export function CinematicIntro() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.55 }}
           role="dialog"
-          aria-label="VNEC introduction"
+          aria-label="Premier Home Services introduction"
         >
           <div className="pointer-events-none absolute inset-0 circuit-pattern opacity-40" />
 
@@ -153,7 +153,7 @@ export function CinematicIntro() {
               }
               transition={{ duration: 0.65 }}
             >
-              VNEC
+              PHS
             </motion.h1>
           </div>
 

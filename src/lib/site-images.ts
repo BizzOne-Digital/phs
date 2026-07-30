@@ -1,5 +1,5 @@
 /**
- * Local images in /public/images — page-specific assets generated for VNEC.
+ * Local images in /public/images — page-specific assets generated for Premier Home Services.
  * Missing files fall back to a nearby existing image.
  */
 const I = (file: string) => `/images/${file}`;
@@ -182,5 +182,5 @@ export function localImage(url: string, alt: string) {
 }
 
 export function localImages(urls: string[], alts: string[]) {
-  return urls.map((url, i) => ({ url, alt: alts[i] || alts[0] || "VNEC" }));
+  return urls.map((url, i) => ({ url, alt: alts[i] || alts[0] || "Premier Home Services" }));
 }

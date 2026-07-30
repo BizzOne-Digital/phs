@@ -151,7 +151,7 @@ export function ServiceRequestWizard({
         const res = await fetch("/api/media", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ dataUri, alt: "Service request photo", folder: "vnec/leads" }),
+          body: JSON.stringify({ dataUri, alt: "Service request photo", folder: "phs/leads" }),
         });
         if (res.ok) {
           const json = await res.json();

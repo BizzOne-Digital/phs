@@ -5,7 +5,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
-const STORAGE_KEY = "vnec-cookie-consent";
+const STORAGE_KEY = "phs-cookie-consent";
 
 export interface CookieNoticeProps {
   analyticsId?: string;

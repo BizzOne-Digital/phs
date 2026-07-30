@@ -14,7 +14,7 @@ import type { Service } from "@/types";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Explore VNEC electrical, HVAC, and plumbing services—including 24/7 emergency options—across the Greater Toronto Area.",
+    "Explore Premier Home Services electrical, HVAC, and plumbing services—including 24/7 emergency options—across the Greater Toronto Area.",
 };
 
 const HERO_IMGS = SITE_IMAGES.servicesIndex.hero.map((src, i) => ({

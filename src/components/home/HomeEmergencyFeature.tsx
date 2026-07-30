@@ -29,7 +29,7 @@ export function HomeEmergencyFeature({
           <SectionHeading
             eyebrow="24/7 Emergency"
             title="When systems fail, response matters"
-            description="Electrical, HVAC, and plumbing emergencies don’t wait for business hours. VNEC provides around-the-clock support across the Greater Toronto Area."
+            description="Electrical, HVAC, and plumbing emergencies don’t wait for business hours. Premier Home Services provides around-the-clock support across the Greater Toronto Area."
           />
           <div className="mt-8 space-y-4">
             {emergencies.map((s, i) => (

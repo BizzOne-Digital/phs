@@ -10,7 +10,7 @@ const MediaAssetSchema = new Schema(
     bytes: Number,
     width: Number,
     height: Number,
-    folder: { type: String, default: "vnec" },
+    folder: { type: String, default: "phs" },
     tags: [String],
   },
   { timestamps: true }

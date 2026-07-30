@@ -49,7 +49,7 @@ export default function AdminLoginPage() {
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-400 to-blue-600 shadow-[0_0_40px_rgba(34,211,238,0.4)]">
             <Zap className="h-7 w-7 text-slate-950" />
           </div>
-          <h1 className="font-display text-3xl font-bold text-white">VNEC Admin</h1>
+          <h1 className="font-display text-3xl font-bold text-white">PHS Admin</h1>
           <p className="mt-2 text-sm text-slate-400">Sign in to manage your service portal</p>
         </div>
 
@@ -70,7 +70,7 @@ export default function AdminLoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="pl-10"
-                  placeholder="admin@vnec.ca"
+                  placeholder="admin@phs.local"
                 />
               </div>
             </div>

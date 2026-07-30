@@ -57,7 +57,7 @@ export default function AdminServicesPage() {
           isEmergency: false,
           shortDescription: "Describe this service in a short summary for cards and listings.",
           fullDescription:
-            "Provide a full description of this service including what customers can expect from VNEC technicians.",
+            "Provide a full description of this service including what customers can expect from Premier Home Services technicians.",
           active: false,
         }),
       });

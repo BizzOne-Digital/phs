@@ -40,14 +40,14 @@ export function formatDate(
   return d.toLocaleDateString("en-CA", opts ?? { year: "numeric", month: "long", day: "numeric" });
 }
 
-/** Reference like VNEC-20260730-A3F9 */
+/** Reference like PHS-20260730-A3F9 */
 export function generateReferenceNumber(): string {
   const now = new Date();
   const y = now.getFullYear();
   const m = String(now.getMonth() + 1).padStart(2, "0");
   const day = String(now.getDate()).padStart(2, "0");
   const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
-  return `VNEC-${y}${m}${day}-${rand}`;
+  return `PHS-${y}${m}${day}-${rand}`;
 }
 
 export function readingTime(content: string): number {

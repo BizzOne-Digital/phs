@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 import { Resend } from "resend";
 
-const from = process.env.EMAIL_FROM || "VNEC <onboarding@resend.dev>";
+const from = process.env.EMAIL_FROM || "Premier Home Services <onboarding@resend.dev>";
 const contactTo = process.env.CONTACT_EMAIL || "vnecconstruction@gmail.com";
 
 function isEmailConfigured(): boolean {
@@ -101,7 +101,7 @@ export async function sendLeadConfirmation(data: {
           ? `<p><strong>For immediate emergencies, call us now at ${data.phone}.</strong></p>`
           : `<p>Our team will contact you shortly during business hours.</p>`
       }
-      <p>— VNEC Electrical, HVAC &amp; Plumbing</p>
+      <p>— Premier Home Services Electrical, HVAC &amp; Plumbing</p>
     `,
   });
 }

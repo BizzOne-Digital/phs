@@ -48,7 +48,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
           <Zap className="h-5 w-5 text-slate-950" />
         </div>
         <div>
-          <p className="font-display text-sm font-bold tracking-wide text-white">VNEC Admin</p>
+          <p className="font-display text-sm font-bold tracking-wide text-white">PHS Admin</p>
           <p className="text-[11px] text-slate-500">Control Center</p>
         </div>
       </div>
@@ -119,7 +119,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
           <div className="flex-1">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">VNEC Portal</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-500">PHS Portal</p>
           </div>
           <Link
             href="/"

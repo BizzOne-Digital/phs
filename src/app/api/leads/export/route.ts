@@ -57,7 +57,7 @@ export async function GET(req: Request) {
     );
 
     const csv = [headers.join(","), ...rows].join("\n");
-    const filename = `vnec-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    const filename = `phs-leads-${new Date().toISOString().slice(0, 10)}.csv`;
 
     return new Response(csv, {
       status: 200,

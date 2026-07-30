@@ -20,7 +20,7 @@ import type { PricingItem } from "@/types";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "Starting price guidance for VNEC electrical, HVAC, and plumbing services in the Greater Toronto Area. Final pricing confirmed after inspection.",
+    "Starting price guidance for Premier Home Services electrical, HVAC, and plumbing services in the Greater Toronto Area. Final pricing confirmed after inspection.",
 };
 
 export default async function PricingPage() {

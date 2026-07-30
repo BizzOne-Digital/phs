@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: page?.seoTitle || "About Us",
     description:
       page?.seoDescription ||
-      "Learn about VNEC’s mission to deliver licensed electrical, HVAC, and plumbing services across the Greater Toronto Area.",
+      "Learn about Premier Home Services' mission to deliver licensed electrical, HVAC, and plumbing services across the Greater Toronto Area.",
   };
 }
 
@@ -18,7 +18,7 @@ const FALLBACK_SECTIONS: Page["sections"] = [
   {
     key: "hero",
     type: "hero",
-    eyebrow: "About VNEC",
+    eyebrow: "About Premier Home Services",
     heading: "Licensed trades. Clear communication. Lasting work.",
     subheading:
       "Our mission is to deliver fast, reliable, and professional electrical, HVAC, and plumbing services through licensed, certified, and highly skilled technicians.",

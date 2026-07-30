@@ -148,7 +148,7 @@ export default async function ServiceDetailPage({ params }: Props) {
           description: service.shortDescription,
           provider: {
             "@type": "LocalBusiness",
-            name: settings.businessName || "VNEC",
+            name: settings.businessName || "Premier Home Services",
             telephone: phone,
             email: settings.email,
             areaServed: settings.serviceArea,
@@ -441,7 +441,7 @@ export default async function ServiceDetailPage({ params }: Props) {
               </h2>
               <p className="mx-auto mt-3 max-w-2xl text-slate-300">
                 {service.isEmergency
-                  ? `For immediate danger call 911 first. For urgent VNEC dispatch across the GTA, call ${phone} or submit a request.`
+                  ? `For immediate danger call 911 first. For urgent Premier Home Services dispatch across the GTA, call ${phone} or submit a request.`
                   : `Submit a service request or call ${phone}. Serving ${settings.serviceArea || "the Greater Toronto Area"}.`}
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">

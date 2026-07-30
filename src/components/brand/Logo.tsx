@@ -63,7 +63,7 @@ function Wordmark({ className }: { className?: string }) {
         className
       )}
     >
-      VNEC
+      PHS
     </span>
   );
 }
@@ -87,7 +87,7 @@ export function Logo({ className, variant = "full", priority = false }: LogoProp
     <Link
       href="/"
       className={cn("inline-flex items-center transition-opacity hover:opacity-90", className)}
-      aria-label="VNEC home"
+      aria-label="Premier Home Services home"
       {...(priority ? { "data-priority": "true" } : {})}
     >
       {content}

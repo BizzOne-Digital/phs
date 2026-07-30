@@ -107,7 +107,7 @@ export default async function BlogDetailPage({ params }: Props) {
                 {post.title}
               </h1>
               <p className="mt-4 text-lg text-slate-300">{post.excerpt}</p>
-              <p className="mt-3 text-sm text-slate-500">By {post.author || "VNEC Team"}</p>
+              <p className="mt-3 text-sm text-slate-500">By {post.author || "PHS Team"}</p>
             </div>
           </Container>
         </section>
@@ -192,7 +192,7 @@ export default async function BlogDetailPage({ params }: Props) {
             <div className="relative px-8 py-14 text-center">
               <h2 className="font-display text-3xl text-white">Need help with a real issue?</h2>
               <p className="mx-auto mt-3 max-w-xl text-slate-300">
-                Request service from licensed VNEC technicians across the Greater Toronto Area.
+                Request service from licensed Premier Home Services technicians across the Greater Toronto Area.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <Link href="/request-service" className="btn-primary">Request Service</Link>

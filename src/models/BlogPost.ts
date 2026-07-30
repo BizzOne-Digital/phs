@@ -9,7 +9,7 @@ const BlogPostSchema = new Schema(
     content: { type: String, required: true },
     featuredImage: ImageSchema,
     inlineImages: [ImageSchema],
-    author: { type: String, default: "VNEC Team" },
+    author: { type: String, default: "PHS Team" },
     category: { type: String, required: true, index: true },
     tags: [{ type: String, index: true }],
     metaTitle: String,

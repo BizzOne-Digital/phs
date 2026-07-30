@@ -35,7 +35,7 @@ import { resolveCmsImage } from "@/lib/upload/resolve";
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug("home").catch(() => null);
   return {
-    title: page?.seoTitle || "Licensed Electrical, HVAC & Plumbing Experts | VNEC",
+    title: page?.seoTitle || "Licensed Electrical, HVAC & Plumbing Experts | Premier Home Services",
     description:
       page?.seoDescription ||
       "Your trusted licensed Electrical, HVAC & Plumbing experts serving the Greater Toronto Area. Scheduled appointments and 24/7 emergency support.",
@@ -70,7 +70,7 @@ export default async function HomePage() {
         emergencyPhone={settings.emergencyPhone || settings.phone}
         serviceArea={settings.serviceArea}
         emergencyAvailability={settings.emergencyAvailability}
-        eyebrow={sectionText(hero, "eyebrow", "VNEC")}
+        eyebrow={sectionText(hero, "eyebrow", "Premier Home Services")}
         headline={sectionText(hero, "heading", BUSINESS.headline)}
         description={sectionText(
           hero,
@@ -85,7 +85,7 @@ export default async function HomePage() {
         phone={settings.emergencyPhone || settings.phone}
       />
       <HomeAboutPreview
-        eyebrow={sectionText(about, "eyebrow", "About VNEC")}
+        eyebrow={sectionText(about, "eyebrow", "About Premier Home Services")}
         title={sectionText(
           about,
           "heading",

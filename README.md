@@ -1,6 +1,6 @@
-# VNEC — Electrical, HVAC & Plumbing (GTA)
+# Premier Home Services — Electrical, HVAC & Plumbing (GTA)
 
-Production-ready Next.js website + admin portal for VNEC, serving the Greater Toronto Area.
+Production-ready Next.js website + admin portal for Premier Home Services, serving the Greater Toronto Area.
 
 ## Stack
 
@@ -20,7 +20,7 @@ Production-ready Next.js website + admin portal for VNEC, serving the Greater To
 mongodb://127.0.0.1:27017
 ```
 
-4. After seeding, open database **`vnec`** to browse collections (`services`, `pages`, `blogposts`, `leads`, `sitesettings`, etc.).
+4. After seeding, open the database named in your `MONGODB_URI` (e.g. **`phs`** or **`vnec`**) to browse collections (`services`, `pages`, `blogposts`, `leads`, `sitesettings`, etc.).
 
 For Atlas, paste your Atlas URI into `.env.local` as `MONGODB_URI`.
 
@@ -34,7 +34,7 @@ Edit `.env.local`:
 
 | Variable | Purpose |
 |---|---|
-| `MONGODB_URI` | `mongodb://127.0.0.1:27017/vnec` (Compass/local) or Atlas URI |
+| `MONGODB_URI` | `mongodb://127.0.0.1:27017/phs` (Compass/local) or Atlas URI |
 | `AUTH_SECRET` / `NEXTAUTH_SECRET` | Long random string |
 | `NEXTAUTH_URL` | `http://localhost:3000` |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | First admin (seed only) |
@@ -56,7 +56,7 @@ npm run dev
 
 Default seed admin (change immediately):
 
-- Email: value of `ADMIN_EMAIL` (example: `admin@vnec.local`)
+- Email: value of `ADMIN_EMAIL` (example: `admin@phs.local`)
 - Password: value of `ADMIN_PASSWORD`
 
 ## 4. Scripts

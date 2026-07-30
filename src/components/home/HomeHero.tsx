@@ -52,7 +52,7 @@ export function HomeHero({
             <span className="truncate">{emergencyAvailability}</span>
           </Badge>
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-cyan sm:mb-3 sm:text-sm">
-            {eyebrow || "VNEC"}
+            {eyebrow || "Premier Home Services"}
           </p>
           <h1 className="font-display text-[1.85rem] font-bold leading-[1.12] tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
             {headline || BUSINESS.headline}
