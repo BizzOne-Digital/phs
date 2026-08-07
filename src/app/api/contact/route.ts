@@ -54,12 +54,21 @@ export async function POST(req: Request) {
       summary: `Contact form lead ${referenceNumber}`,
     });
 
-    await Promise.allSettled([
+    const mailResults = await Promise.allSettled([
       sendContactNotification({
+        to: settings.contactFormRecipient || settings.email,
+        referenceNumber,
         name: parsed.data.fullName,
         email: parsed.data.email,
         phone: parsed.data.phone,
         message: parsed.data.message,
+        serviceCategory: parsed.data.serviceCategory,
+        propertyType: parsed.data.propertyType,
+        customerType: parsed.data.customerType,
+        location: parsed.data.location,
+        isEmergency: parsed.data.isEmergency,
+        preferredDate: parsed.data.preferredDate,
+        preferredTime: parsed.data.preferredTime,
       }),
       sendLeadConfirmation({
         to: parsed.data.email,
@@ -69,6 +78,11 @@ export async function POST(req: Request) {
         phone: settings.emergencyPhone || settings.phone,
       }),
     ]);
+    mailResults.forEach((result, i) => {
+      if (result.status === "rejected") {
+        console.error(`contact email #${i} failed:`, result.reason);
+      }
+    });
 
     return NextResponse.json({ success: true, referenceNumber });
   } catch (error) {

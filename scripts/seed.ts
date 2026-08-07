@@ -98,7 +98,7 @@ async function seedSettings() {
       faviconUrl: "/favicon.svg",
       phone: "437-256-1028",
       emergencyPhone: "437-256-1028",
-      email: "vnecconstruction@gmail.com",
+      email: "contact@premierhomeservice.com",
       serviceArea: "Greater Toronto Area, Ontario",
       businessHours: "Monday–Saturday: 9:00 AM–5:00 PM",
       emergencyAvailability: "Available 24/7",
@@ -116,7 +116,7 @@ async function seedSettings() {
         { label: "Privacy Policy", href: "/privacy-policy" },
         { label: "Terms & Conditions", href: "/terms-and-conditions" },
       ],
-      contactFormRecipient: "vnecconstruction@gmail.com",
+      contactFormRecipient: "contact@premierhomeservice.com",
       defaultSeoTitle:
         "Premier Home Services | Licensed Electrical, HVAC & Plumbing — Greater Toronto Area",
       defaultSeoDescription:
@@ -1688,7 +1688,7 @@ async function seedPages() {
       slug: "contact",
       seoTitle: "Contact Premier Home Services | 437-256-1028 — Greater Toronto Area",
       seoDescription:
-        "Contact Premier Home Services for electrical, HVAC, and plumbing service in the GTA. Phone 437-256-1028 · vnecconstruction@gmail.com · Emergency 24/7.",
+        "Contact Premier Home Services for electrical, HVAC, and plumbing service in the GTA. Phone 437-256-1028 · contact@premierhomeservice.com · Emergency 24/7.",
       ogImage: PLACEHOLDER_IMAGES.van,
       sections: [
         section({
@@ -1708,7 +1708,7 @@ async function seedPages() {
           heading: "Contact details",
           bullets: [
             "Phone: 437-256-1028",
-            "Email: vnecconstruction@gmail.com",
+            "Email: contact@premierhomeservice.com",
             "Service area: Greater Toronto Area, Ontario",
             "Hours: Monday–Saturday 9:00 AM–5:00 PM",
             "Emergency services: 24/7",
@@ -1739,7 +1739,7 @@ async function seedPages() {
           bullets: [
             "Q: What is the emergency number? A: Call 437-256-1028 anytime for emergencies.",
             "Q: What are regular hours? A: Monday–Saturday, 9:00 AM–5:00 PM for scheduled appointments.",
-            "Q: Do you reply by email? A: Yes — reach us at vnecconstruction@gmail.com.",
+            "Q: Do you reply by email? A: Yes — reach us at contact@premierhomeservice.com.",
           ],
           images: imgs("tools"),
           order: 4,
@@ -1862,7 +1862,7 @@ async function seedPages() {
           key: "contact",
           type: "content",
           heading: "Questions",
-          body: "For privacy questions, email vnecconstruction@gmail.com or call 437-256-1028.",
+          body: "For privacy questions, email contact@premierhomeservice.com or call 437-256-1028.",
           images: imgs("van"),
           order: 4,
         }),
@@ -1919,7 +1919,7 @@ async function seedPages() {
           key: "contact",
           type: "content",
           heading: "Contact",
-          body: "Questions about these terms: vnecconstruction@gmail.com · 437-256-1028.",
+          body: "Questions about these terms: contact@premierhomeservice.com · 437-256-1028.",
           images: imgs("torontoSkyline"),
           order: 4,
         }),

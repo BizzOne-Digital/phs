@@ -8,7 +8,7 @@ const SiteSettingsSchema = new Schema(
     faviconUrl: { type: String, default: "/favicon.svg" },
     phone: { type: String, default: "437-256-1028" },
     emergencyPhone: { type: String, default: "437-256-1028" },
-    email: { type: String, default: "vnecconstruction@gmail.com" },
+    email: { type: String, default: "contact@premierhomeservice.com" },
     serviceArea: { type: String, default: "Greater Toronto Area, Ontario" },
     businessHours: { type: String, default: "Monday–Saturday: 9:00 AM–5:00 PM" },
     emergencyAvailability: { type: String, default: "Available 24/7" },
@@ -30,7 +30,7 @@ const SiteSettingsSchema = new Schema(
         href: String,
       },
     ],
-    contactFormRecipient: { type: String, default: "vnecconstruction@gmail.com" },
+    contactFormRecipient: { type: String, default: "contact@premierhomeservice.com" },
     defaultSeoTitle: {
       type: String,
       default: "Premier Home Services | Licensed Electrical, HVAC & Plumbing — Greater Toronto Area",

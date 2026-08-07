@@ -4,7 +4,7 @@ import type { Service, PricingItem, Testimonial, BlogPost, SiteSettings } from "
 export const BUSINESS = {
   name: "Premier Home Services",
   phone: "437-256-1028",
-  email: "vnecconstruction@gmail.com",
+  email: "contact@premierhomeservice.com",
   serviceArea: "Greater Toronto Area, Ontario",
   businessHours: "Monday–Saturday: 9:00 AM–5:00 PM",
   emergencyAvailability: "Available 24/7",

@@ -40,7 +40,7 @@ export default async function ContactPage() {
     settings = {
       phone: "437-256-1028",
       emergencyPhone: "437-256-1028",
-      email: "vnecconstruction@gmail.com",
+      email: "contact@premierhomeservice.com",
       serviceArea: "Greater Toronto Area, Ontario",
       businessHours: "Monday–Saturday: 9:00 AM–5:00 PM",
       emergencyAvailability: "Available 24/7",

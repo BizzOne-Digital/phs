@@ -46,7 +46,7 @@ const empty: SettingsForm = {
   businessName: "Premier Home Services",
   phone: "437-256-1028",
   emergencyPhone: "437-256-1028",
-  email: "vnecconstruction@gmail.com",
+  email: "contact@premierhomeservice.com",
   serviceArea: "Greater Toronto Area, Ontario",
   businessHours: "Monday–Saturday: 9:00 AM–5:00 PM",
   emergencyAvailability: "Available 24/7",
@@ -143,12 +143,16 @@ export default function AdminSettingsPage() {
               <TextInput type="email" value={form.email} onChange={(e) => update("email", e.target.value)} />
             </div>
             <div>
-              <FieldLabel>Contact form recipient</FieldLabel>
+              <FieldLabel>Booking & form notification email</FieldLabel>
               <TextInput
                 type="email"
                 value={form.contactFormRecipient || ""}
                 onChange={(e) => update("contactFormRecipient", e.target.value)}
+                placeholder={form.email || "Same as footer email if empty"}
               />
+              <p className="mt-1 text-xs text-slate-500">
+                Service bookings and contact form messages are sent here. Defaults to the footer email above when blank.
+              </p>
             </div>
             <div>
               <FieldLabel>Service area</FieldLabel>

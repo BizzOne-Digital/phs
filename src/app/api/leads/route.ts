@@ -56,16 +56,23 @@ export async function POST(req: Request) {
       summary: `Service request ${referenceNumber}`,
     });
 
-    await Promise.allSettled([
+    const mailResults = await Promise.allSettled([
       sendLeadNotification({
+        to: settings.contactFormRecipient || settings.email,
         referenceNumber,
         name: parsed.data.fullName,
         email: parsed.data.email,
         phone: parsed.data.phone,
         serviceCategory: parsed.data.serviceCategory,
+        specificService: parsed.data.specificService,
         isEmergency: parsed.data.isEmergency,
         message: parsed.data.issueDetails,
         location: parsed.data.location,
+        propertyType: parsed.data.propertyType,
+        customerType: parsed.data.customerType,
+        preferredDate: parsed.data.preferredDate,
+        preferredTime: parsed.data.preferredTime,
+        source: "request-service",
       }),
       sendLeadConfirmation({
         to: parsed.data.email,
@@ -75,6 +82,11 @@ export async function POST(req: Request) {
         phone: settings.emergencyPhone || settings.phone,
       }),
     ]);
+    mailResults.forEach((result, i) => {
+      if (result.status === "rejected") {
+        console.error(`lead email #${i} failed:`, result.reason);
+      }
+    });
 
     return NextResponse.json({ success: true, referenceNumber });
   } catch (error) {

@@ -40,7 +40,7 @@ Edit `.env.local`:
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | First admin (seed only) |
 | `CLOUDINARY_*` | Optional / legacy only (not required) |
 | `RESEND_API_KEY` or SMTP_* | Optional email notifications |
-| `CONTACT_EMAIL` | `vnecconstruction@gmail.com` |
+| `CONTACT_EMAIL` | `contact@premierhomeservice.com` |
 | `NEXT_PUBLIC_SITE_URL` | Public site URL |
 
 ## 3. Install, seed, run
@@ -85,7 +85,7 @@ Logo SVG: `public/logo.svg` (also React component `src/components/brand/Logo.tsx
 ## 7. Business defaults
 
 - Phone: 437-256-1028  
-- Email: vnecconstruction@gmail.com  
+- Email: contact@premierhomeservice.com  
 - Area: Greater Toronto Area, Ontario  
 - Hours: Mon–Sat 9:00 AM–5:00 PM · Emergency 24/7  
 - Offer: 5% OFF for Seniors, Veterans & First-Time Customers  
