@@ -96,6 +96,11 @@ export function ServiceRequestWizard({
   });
   const [submitting, setSubmitting] = useState(false);
   const [reference, setReference] = useState<string | null>(null);
+  const [emailStatus, setEmailStatus] = useState<{
+    businessOk?: boolean;
+    customerOk?: boolean;
+    error?: string;
+  } | null>(null);
   const [stepError, setStepError] = useState<string | null>(null);
 
   const serviceOptions = useMemo(
@@ -211,7 +216,21 @@ export function ServiceRequestWizard({
       const json = await res.json();
       if (!res.ok) throw new Error(json.error || "Submission failed");
       setReference(json.referenceNumber);
-      toast.success("Request submitted");
+      const businessOk = Boolean(json.email?.business?.ok);
+      const customerOk = Boolean(json.email?.customer?.ok);
+      setEmailStatus({
+        businessOk,
+        customerOk,
+        error: json.email?.business?.error || json.email?.customer?.error,
+      });
+      if (businessOk && customerOk) {
+        toast.success("Request submitted — confirmation email sent");
+      } else if (customerOk) {
+        toast.success("Request submitted");
+      } else {
+        toast.success("Request submitted");
+        toast.message("Confirmation email could not be sent. We’ll still contact you.");
+      }
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Unable to submit");
     } finally {
@@ -272,6 +291,16 @@ export function ServiceRequestWizard({
         ) : (
           <p className="mt-4 text-sm text-slate-400">Our team will contact you during business hours.</p>
         )}
+        {emailStatus && (!emailStatus.customerOk || !emailStatus.businessOk) ? (
+          <p className="mt-4 rounded-xl border border-amber/30 bg-amber/10 px-4 py-3 text-sm text-amber">
+            Your request was saved successfully
+            {!emailStatus.customerOk
+              ? ", but the confirmation email could not be delivered right now"
+              : ""}
+            . Our team still has your request
+            {emailStatus.error ? ` (${emailStatus.error.slice(0, 120)})` : ""}.
+          </p>
+        ) : null}
       </div>
     );
   }

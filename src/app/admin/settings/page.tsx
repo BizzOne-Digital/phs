@@ -59,6 +59,13 @@ export default function AdminSettingsPage() {
   const [form, setForm] = useState<SettingsForm>(empty);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [testingEmail, setTestingEmail] = useState(false);
+  const [emailHealth, setEmailHealth] = useState<{
+    configured?: boolean;
+    smtpPassSet?: boolean;
+    smtpUser?: string | null;
+    verify?: { ok: boolean; via: string; error?: string };
+  } | null>(null);
 
   useEffect(() => {
     adminFetch<{ settings: SettingsForm }>("/api/settings")
@@ -71,6 +78,15 @@ export default function AdminSettingsPage() {
       })
       .catch((e) => toast.error(e instanceof Error ? e.message : "Failed to load settings"))
       .finally(() => setLoading(false));
+
+    adminFetch<{
+      configured: boolean;
+      smtpPassSet: boolean;
+      smtpUser: string | null;
+      verify: { ok: boolean; via: string; error?: string };
+    }>("/api/admin/test-email")
+      .then((data) => setEmailHealth(data))
+      .catch(() => undefined);
   }, []);
 
   function update<K extends keyof SettingsForm>(key: K, value: SettingsForm[K]) {
@@ -94,6 +110,34 @@ export default function AdminSettingsPage() {
       toast.error(e instanceof Error ? e.message : "Save failed");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function sendTestEmail() {
+    setTestingEmail(true);
+    try {
+      const result = await adminFetch<{ ok: boolean; error?: string; via?: string }>(
+        "/api/admin/test-email",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            to: form.contactFormRecipient || form.email,
+          }),
+        }
+      );
+      if (result.ok) {
+        toast.success(`Test email sent via ${result.via || "smtp"}`);
+      } else {
+        toast.error(result.error || "Test email failed");
+      }
+    } catch (e) {
+      const msg =
+        e instanceof Error
+          ? e.message
+          : "Test email failed";
+      toast.error(msg);
+    } finally {
+      setTestingEmail(false);
     }
   }
 
@@ -153,6 +197,28 @@ export default function AdminSettingsPage() {
               <p className="mt-1 text-xs text-slate-500">
                 Service bookings and contact form messages are sent here. Defaults to the footer email above when blank.
               </p>
+              <div className="mt-3 rounded-xl border border-white/10 bg-white/5 p-3 text-xs text-slate-400">
+                <p>
+                  SMTP status:{" "}
+                  {emailHealth == null
+                    ? "checking…"
+                    : emailHealth.verify?.ok
+                      ? `OK (${emailHealth.verify.via})`
+                      : `FAIL — ${emailHealth.verify?.error || "not configured"}`}
+                </p>
+                <p className="mt-1">
+                  User: {emailHealth?.smtpUser || "—"} · Password:{" "}
+                  {emailHealth?.smtpPassSet ? "set" : "MISSING"}
+                </p>
+                <button
+                  type="button"
+                  onClick={sendTestEmail}
+                  disabled={testingEmail}
+                  className="btn-secondary mt-3 !px-3 !py-1.5 text-xs"
+                >
+                  {testingEmail ? "Sending test…" : "Send test email"}
+                </button>
+              </div>
             </div>
             <div>
               <FieldLabel>Service area</FieldLabel>

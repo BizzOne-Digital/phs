@@ -7,7 +7,6 @@ const DEFAULT_FROM_NAME = "Premier Home Services";
 
 function env(name: string, fallback = ""): string {
   const value = process.env[name];
-  // Treat blank env (e.g. SMTP_PASS= in .env.local) as unset
   if (value == null || !String(value).trim()) return fallback;
   return String(value).trim();
 }
@@ -38,42 +37,70 @@ export function isEmailConfigured(): boolean {
 }
 
 let cachedTransporter: Transporter | null = null;
+let cachedTransporterKey = "";
+
+function smtpConfigKey(): string {
+  return [
+    env("SMTP_HOST"),
+    env("SMTP_PORT", "587"),
+    env("SMTP_SECURE"),
+    env("SMTP_USER"),
+    env("SMTP_PASS"),
+  ].join("|");
+}
 
 function getSmtpTransporter(): Transporter {
-  if (cachedTransporter) return cachedTransporter;
+  const key = smtpConfigKey();
+  if (cachedTransporter && cachedTransporterKey === key) return cachedTransporter;
 
   const host = env("SMTP_HOST");
   const user = env("SMTP_USER");
-  const pass = env("SMTP_PASS");
+  const pass = env("SMTP_PASS").replace(/\s+/g, "");
   const port = Number(env("SMTP_PORT", "587"));
-  const secure =
-    env("SMTP_SECURE") === "true" || port === 465;
+  const secure = env("SMTP_SECURE") === "true" || port === 465;
 
   if (!host || !user || !pass) {
     throw new Error(
-      "SMTP is not configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS (Gmail App Password recommended)."
+      "SMTP is not configured. Set SMTP_HOST, SMTP_USER, and SMTP_PASS (Google Workspace App Password)."
     );
   }
 
-  cachedTransporter = nodemailer.createTransport({
-    // Gmail-friendly config (STARTTLS on 587)
-    host,
-    port,
-    secure,
-    requireTLS: !secure && port === 587,
-    auth: {
-      user,
-      // App passwords are often copied with spaces — strip them
-      pass: pass.replace(/\s+/g, ""),
-    },
-    tls: {
-      rejectUnauthorized: env("SMTP_TLS_REJECT_UNAUTHORIZED") !== "false",
-      minVersion: "TLSv1.2",
-    },
-  });
+  const isGoogleHost =
+    host.includes("gmail.com") || host.includes("google.com");
 
+  // Prefer Google "service" preset when talking to Gmail/Workspace SMTP
+  cachedTransporter = isGoogleHost
+    ? nodemailer.createTransport({
+        service: "gmail",
+        auth: { user, pass },
+      })
+    : nodemailer.createTransport({
+        host,
+        port,
+        secure,
+        requireTLS: !secure && port === 587,
+        auth: { user, pass },
+        tls: {
+          rejectUnauthorized: env("SMTP_TLS_REJECT_UNAUTHORIZED") !== "false",
+          minVersion: "TLSv1.2",
+        },
+      });
+
+  cachedTransporterKey = key;
   return cachedTransporter;
 }
+
+function resetSmtpTransporter() {
+  cachedTransporter = null;
+  cachedTransporterKey = "";
+}
+
+export type SendEmailResult = {
+  ok: boolean;
+  via?: "smtp" | "resend" | "noop";
+  messageId?: string;
+  error?: string;
+};
 
 async function sendEmail(opts: {
   to: string;
@@ -81,60 +108,64 @@ async function sendEmail(opts: {
   html: string;
   text?: string;
   replyTo?: string;
-}): Promise<void> {
+}): Promise<SendEmailResult> {
   const from = getFromAddress();
 
   if (!opts.to) {
-    throw new Error("Missing notification recipient email");
+    return { ok: false, via: "noop", error: "Missing notification recipient email" };
   }
 
-  // Prefer SMTP when fully configured (primary for this project)
   const smtpReady = Boolean(env("SMTP_HOST") && env("SMTP_USER") && env("SMTP_PASS"));
+
   if (smtpReady) {
-    const transporter = getSmtpTransporter();
-    const info = await transporter.sendMail({
-      from,
-      to: opts.to,
-      replyTo: opts.replyTo,
-      subject: opts.subject,
-      html: opts.html,
-      text: opts.text,
-    });
-    console.log("[email:smtp]", opts.subject, "→", opts.to, info.messageId);
-    return;
+    try {
+      const transporter = getSmtpTransporter();
+      const info = await transporter.sendMail({
+        from,
+        to: opts.to,
+        replyTo: opts.replyTo,
+        subject: opts.subject,
+        html: opts.html,
+        text: opts.text,
+      });
+      console.log("[email:smtp]", opts.subject, "→", opts.to, info.messageId);
+      return { ok: true, via: "smtp", messageId: info.messageId };
+    } catch (e) {
+      resetSmtpTransporter();
+      const message = e instanceof Error ? e.message : String(e);
+      console.error("[email:smtp:fail]", opts.subject, "→", opts.to, message);
+      return { ok: false, via: "smtp", error: message };
+    }
   }
 
   if (env("RESEND_API_KEY")) {
-    const resend = new Resend(env("RESEND_API_KEY"));
-    await resend.emails.send({
-      from,
-      to: opts.to,
-      replyTo: opts.replyTo,
-      subject: opts.subject,
-      html: opts.html,
-      text: opts.text,
-    });
-    console.log("[email:resend]", opts.subject, "→", opts.to);
-    return;
+    try {
+      const resend = new Resend(env("RESEND_API_KEY"));
+      const result = await resend.emails.send({
+        from,
+        to: opts.to,
+        replyTo: opts.replyTo,
+        subject: opts.subject,
+        html: opts.html,
+        text: opts.text,
+      });
+      if (result.error) {
+        console.error("[email:resend:fail]", result.error);
+        return { ok: false, via: "resend", error: result.error.message };
+      }
+      console.log("[email:resend]", opts.subject, "→", opts.to);
+      return { ok: true, via: "resend", messageId: result.data?.id };
+    } catch (e) {
+      const message = e instanceof Error ? e.message : String(e);
+      console.error("[email:resend:fail]", message);
+      return { ok: false, via: "resend", error: message };
+    }
   }
 
-  const passSet = Boolean(process.env.SMTP_PASS && String(process.env.SMTP_PASS).trim());
-  console.warn(
-    "[email:noop] Email not configured — set SMTP_PASS (App Password) in .env.local.",
-    "host=",
-    process.env.SMTP_HOST || "(missing)",
-    "user=",
-    process.env.SMTP_USER || "(missing)",
-    "pass=",
-    passSet ? "set" : "EMPTY",
-    "| skipped:",
-    opts.subject,
-    "→",
-    opts.to
-  );
-  throw new Error(
-    "Email not configured: SMTP_PASS is empty. Add a Google Workspace App Password to .env.local and restart the server."
-  );
+  const error =
+    "Email not configured: set SMTP_PASS (Google Workspace App Password) in .env.local and on Vercel.";
+  console.warn("[email:noop]", error, "| skipped:", opts.subject, "→", opts.to);
+  return { ok: false, via: "noop", error };
 }
 
 function escapeHtml(value: string): string {
@@ -169,11 +200,13 @@ export type LeadNotificationInput = {
   source?: string;
 };
 
-export async function sendLeadNotification(data: LeadNotificationInput): Promise<void> {
+export async function sendLeadNotification(
+  data: LeadNotificationInput
+): Promise<SendEmailResult> {
   const to = data.to || resolveNotificationEmail();
   const subject = `${data.isEmergency ? "[EMERGENCY] " : ""}New booking ${data.referenceNumber} — ${data.serviceCategory}`;
 
-  await sendEmail({
+  return sendEmail({
     to,
     replyTo: data.email,
     subject,
@@ -222,8 +255,8 @@ export async function sendLeadConfirmation(data: {
   referenceNumber: string;
   isEmergency: boolean;
   phone: string;
-}): Promise<void> {
-  await sendEmail({
+}): Promise<SendEmailResult> {
+  return sendEmail({
     to: data.to,
     subject: `We received your request — ${data.referenceNumber}`,
     html: `
@@ -260,11 +293,13 @@ export type ContactNotificationInput = {
   preferredTime?: string;
 };
 
-export async function sendContactNotification(data: ContactNotificationInput): Promise<void> {
+export async function sendContactNotification(
+  data: ContactNotificationInput
+): Promise<SendEmailResult> {
   const to = data.to || resolveNotificationEmail();
   const subject = `${data.isEmergency ? "[EMERGENCY] " : ""}Contact form — ${data.name}`;
 
-  await sendEmail({
+  return sendEmail({
     to,
     replyTo: data.email,
     subject,
@@ -302,7 +337,11 @@ export async function sendContactNotification(data: ContactNotificationInput): P
 }
 
 /** Optional startup / admin health check */
-export async function verifyEmailTransport(): Promise<{ ok: boolean; via: string; error?: string }> {
+export async function verifyEmailTransport(): Promise<{
+  ok: boolean;
+  via: string;
+  error?: string;
+}> {
   try {
     if (env("SMTP_HOST") && env("SMTP_USER") && env("SMTP_PASS")) {
       await getSmtpTransporter().verify();
@@ -311,12 +350,27 @@ export async function verifyEmailTransport(): Promise<{ ok: boolean; via: string
     if (env("RESEND_API_KEY")) {
       return { ok: true, via: "resend" };
     }
-    return { ok: false, via: "none", error: "No SMTP or Resend credentials configured" };
+    return {
+      ok: false,
+      via: "none",
+      error: "No SMTP or Resend credentials configured",
+    };
   } catch (e) {
+    resetSmtpTransporter();
     return {
       ok: false,
       via: "smtp",
       error: e instanceof Error ? e.message : "SMTP verify failed",
     };
   }
+}
+
+export async function sendTestEmail(to?: string): Promise<SendEmailResult> {
+  const recipient = to || env("CONTACT_EMAIL", DEFAULT_TO);
+  return sendEmail({
+    to: recipient,
+    subject: `PHS email test ${new Date().toISOString()}`,
+    html: `<p>SMTP test from Premier Home Services. If you received this, email delivery is working.</p>`,
+    text: "SMTP test from Premier Home Services. If you received this, email delivery is working.",
+  });
 }

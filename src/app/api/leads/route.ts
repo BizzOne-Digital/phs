@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       summary: `Service request ${referenceNumber}`,
     });
 
-    const mailResults = await Promise.allSettled([
+    const [notifyResult, confirmResult] = await Promise.all([
       sendLeadNotification({
         to: settings.contactFormRecipient || settings.email,
         referenceNumber,
@@ -82,13 +82,28 @@ export async function POST(req: Request) {
         phone: settings.emergencyPhone || settings.phone,
       }),
     ]);
-    mailResults.forEach((result, i) => {
-      if (result.status === "rejected") {
-        console.error(`lead email #${i} failed:`, result.reason);
-      }
-    });
 
-    return NextResponse.json({ success: true, referenceNumber });
+    if (!notifyResult.ok) {
+      console.error("business notification failed:", notifyResult.error);
+      await ActivityLog.create({
+        action: "lead.email_failed",
+        entityType: "Lead",
+        entityId: lead._id.toString(),
+        summary: `Business email failed: ${notifyResult.error || "unknown"}`,
+      }).catch(() => undefined);
+    }
+    if (!confirmResult.ok) {
+      console.error("customer confirmation failed:", confirmResult.error);
+    }
+
+    return NextResponse.json({
+      success: true,
+      referenceNumber,
+      email: {
+        business: notifyResult,
+        customer: confirmResult,
+      },
+    });
   } catch (error) {
     console.error("lead create error", error);
     return NextResponse.json({ error: "Unable to submit request." }, { status: 500 });

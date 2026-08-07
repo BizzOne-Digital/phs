@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       summary: `Contact form lead ${referenceNumber}`,
     });
 
-    const mailResults = await Promise.allSettled([
+    const [notifyResult, confirmResult] = await Promise.all([
       sendContactNotification({
         to: settings.contactFormRecipient || settings.email,
         referenceNumber,
@@ -78,13 +78,22 @@ export async function POST(req: Request) {
         phone: settings.emergencyPhone || settings.phone,
       }),
     ]);
-    mailResults.forEach((result, i) => {
-      if (result.status === "rejected") {
-        console.error(`contact email #${i} failed:`, result.reason);
-      }
-    });
 
-    return NextResponse.json({ success: true, referenceNumber });
+    if (!notifyResult.ok) {
+      console.error("contact business email failed:", notifyResult.error);
+    }
+    if (!confirmResult.ok) {
+      console.error("contact customer email failed:", confirmResult.error);
+    }
+
+    return NextResponse.json({
+      success: true,
+      referenceNumber,
+      email: {
+        business: notifyResult,
+        customer: confirmResult,
+      },
+    });
   } catch (error) {
     console.error("contact error", error);
     return NextResponse.json({ error: "Unable to submit. Please call us directly." }, { status: 500 });
