@@ -6,7 +6,10 @@ const DEFAULT_TO = "contact@premierhomeservice.com";
 const DEFAULT_FROM_NAME = "Premier Home Services";
 
 function env(name: string, fallback = ""): string {
-  return (process.env[name] || fallback).trim();
+  const value = process.env[name];
+  // Treat blank env (e.g. SMTP_PASS= in .env.local) as unset
+  if (value == null || !String(value).trim()) return fallback;
+  return String(value).trim();
 }
 
 function getFromAddress(): string {
@@ -86,7 +89,8 @@ async function sendEmail(opts: {
   }
 
   // Prefer SMTP when fully configured (primary for this project)
-  if (env("SMTP_HOST") && env("SMTP_USER") && env("SMTP_PASS")) {
+  const smtpReady = Boolean(env("SMTP_HOST") && env("SMTP_USER") && env("SMTP_PASS"));
+  if (smtpReady) {
     const transporter = getSmtpTransporter();
     const info = await transporter.sendMail({
       from,
@@ -114,11 +118,22 @@ async function sendEmail(opts: {
     return;
   }
 
+  const passSet = Boolean(process.env.SMTP_PASS && String(process.env.SMTP_PASS).trim());
   console.warn(
-    "[email:noop] Email not configured — set SMTP_* or RESEND_API_KEY. Skipped:",
+    "[email:noop] Email not configured — set SMTP_PASS (App Password) in .env.local.",
+    "host=",
+    process.env.SMTP_HOST || "(missing)",
+    "user=",
+    process.env.SMTP_USER || "(missing)",
+    "pass=",
+    passSet ? "set" : "EMPTY",
+    "| skipped:",
     opts.subject,
     "→",
     opts.to
+  );
+  throw new Error(
+    "Email not configured: SMTP_PASS is empty. Add a Google Workspace App Password to .env.local and restart the server."
   );
 }
 
