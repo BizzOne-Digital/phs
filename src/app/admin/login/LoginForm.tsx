@@ -1,36 +1,73 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { Zap, Lock, Mail, Loader2 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 import { FieldLabel, TextInput } from "@/components/admin/AdminForm";
 
+function resolveCallbackUrl(raw: string | null) {
+  if (!raw) return "/admin";
+  if (raw.startsWith("/admin")) return raw;
+
+  try {
+    const url = new URL(raw, window.location.origin);
+    if (url.origin === window.location.origin && url.pathname.startsWith("/admin")) {
+      return `${url.pathname}${url.search}`;
+    }
+  } catch {
+    // ignore malformed callback URLs
+  }
+
+  return "/admin";
+}
+
 export default function AdminLoginPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    const error = searchParams.get("error");
+    if (error === "CredentialsSignin") {
+      toast.error("Invalid email or password");
+      return;
+    }
+    if (error === "Configuration") {
+      toast.error("Auth is misconfigured. Check AUTH_SECRET and NEXTAUTH_URL on the server.");
+      return;
+    }
+    if (error) {
+      toast.error("Unable to sign in. Please try again.");
+    }
+  }, [searchParams]);
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
     setLoading(true);
+
     try {
+      const callbackUrl = resolveCallbackUrl(searchParams.get("callbackUrl"));
       const res = await signIn("credentials", {
         email,
         password,
         redirect: false,
+        callbackUrl,
       });
-      if (res?.error) {
-        toast.error(res.error === "CredentialsSignin" ? "Invalid email or password" : res.error);
+
+      if (!res?.ok || res.error) {
+        toast.error(
+          res?.error === "CredentialsSignin"
+            ? "Invalid email or password"
+            : res?.error || "Unable to sign in"
+        );
         return;
       }
-      toast.success("Welcome back");
-      const callback = searchParams.get("callbackUrl") || "/admin";
-      router.replace(callback.startsWith("/admin") ? callback : "/admin");
-      router.refresh();
+
+      // Full page navigation so middleware reads the new session cookie.
+      window.location.assign(res.url || callbackUrl);
     } catch {
       toast.error("Unable to sign in");
     } finally {

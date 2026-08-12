@@ -7,8 +7,11 @@ import { AdminUser } from "@/models/AdminUser";
 import { loginSchema } from "@/lib/validations";
 import { rateLimit } from "@/lib/rate-limit";
 
+const authSecret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
+  secret: authSecret,
   providers: [
     Credentials({
       name: "credentials",

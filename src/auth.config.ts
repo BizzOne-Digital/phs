@@ -1,10 +1,13 @@
 import type { NextAuthConfig } from "next-auth";
 
+const authSecret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+
 /**
  * Edge-safe Auth.js config (no Node-only imports).
  * Used by middleware / edge runtimes. Full Credentials authorize lives in `src/lib/auth.ts`.
  */
 export const authConfig = {
+  secret: authSecret,
   providers: [],
   session: { strategy: "jwt", maxAge: 60 * 60 * 8 },
   pages: {
