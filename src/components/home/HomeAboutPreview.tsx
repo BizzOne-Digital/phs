@@ -1,11 +1,11 @@
-import Image from "next/image";
 import { Reveal } from "@/components/animations/Reveal";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { PLACEHOLDER_IMAGES, IMAGE_ALTS } from "@/lib/placeholders";
+import { CmsImage } from "@/components/cms/CmsImage";
 import { SITE_IMAGES } from "@/lib/site-images";
+import { IMAGE_ALTS } from "@/lib/placeholders";
 
 export function HomeAboutPreview({
   eyebrow,
@@ -16,6 +16,7 @@ export function HomeAboutPreview({
   ctaUrl,
   imageUrl,
   imageAlt,
+  images,
 }: {
   eyebrow?: string;
   title?: string;
@@ -25,31 +26,25 @@ export function HomeAboutPreview({
   ctaUrl?: string;
   imageUrl?: string;
   imageAlt?: string;
+  images?: Array<{ url?: string; alt?: string }>;
 }) {
+  const gallery = [
+    { src: images?.[0]?.url || imageUrl, alt: images?.[0]?.alt || imageAlt || IMAGE_ALTS.teamWork, fallback: SITE_IMAGES.home.aboutMain },
+    { src: images?.[1]?.url, alt: images?.[1]?.alt || IMAGE_ALTS.tools, fallback: SITE_IMAGES.home.aboutTools },
+    { src: images?.[2]?.url, alt: images?.[2]?.alt || IMAGE_ALTS.safetyGear, fallback: SITE_IMAGES.home.aboutSafety },
+  ];
   return (
     <Section>
       <Container className="grid items-center gap-12 lg:grid-cols-2">
         <Reveal direction="left" className="relative grid grid-cols-2 gap-4">
           <div className="relative col-span-2 aspect-[16/10] overflow-hidden rounded-2xl">
-            <Image
-              src={imageUrl || SITE_IMAGES.home.aboutMain}
-              alt={imageAlt || IMAGE_ALTS.teamWork}
-              fill
-              className="object-cover"
-              sizes="(max-width:1024px) 100vw, 45vw"
-            />
+            <CmsImage src={gallery[0].src} fallback={gallery[0].fallback} alt={gallery[0].alt} fill className="object-cover" sizes="(max-width:1024px) 100vw, 45vw" />
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image src={SITE_IMAGES.home.aboutTools} alt={IMAGE_ALTS.tools} fill className="object-cover" sizes="22vw" />
+            <CmsImage src={gallery[1].src} fallback={gallery[1].fallback} alt={gallery[1].alt} fill className="object-cover" sizes="22vw" />
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image
-              src={SITE_IMAGES.home.aboutSafety}
-              alt={IMAGE_ALTS.safetyGear}
-              fill
-              className="object-cover"
-              sizes="22vw"
-            />
+            <CmsImage src={gallery[2].src} fallback={gallery[2].fallback} alt={gallery[2].alt} fill className="object-cover" sizes="22vw" />
           </div>
         </Reveal>
         <Reveal direction="right" delay={0.12}>

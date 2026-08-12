@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { ImageUploadField } from "@/components/admin/ImageUploadField";
 import {
   PageHeader,
   AdminCard,
@@ -248,14 +249,18 @@ export default function AdminSettingsPage() {
 
         <AdminCard title="Brand & offer">
           <div className="grid gap-4">
-            <div>
-              <FieldLabel>Logo URL</FieldLabel>
-              <TextInput value={form.logoUrl || ""} onChange={(e) => update("logoUrl", e.target.value)} />
-            </div>
-            <div>
-              <FieldLabel>Favicon URL</FieldLabel>
-              <TextInput value={form.faviconUrl || ""} onChange={(e) => update("faviconUrl", e.target.value)} />
-            </div>
+            <ImageUploadField
+              label="Logo"
+              folder="misc"
+              value={form.logoUrl || ""}
+              onChange={(url) => update("logoUrl", url)}
+            />
+            <ImageUploadField
+              label="Favicon"
+              folder="misc"
+              value={form.faviconUrl || ""}
+              onChange={(url) => update("faviconUrl", url)}
+            />
             <div>
               <FieldLabel>Special offer text</FieldLabel>
               <TextInput

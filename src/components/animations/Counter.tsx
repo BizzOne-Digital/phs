@@ -13,6 +13,13 @@ export interface CounterProps {
   decimals?: number;
 }
 
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export function Counter({
   value,
   suffix = "",
@@ -27,11 +34,7 @@ export function Counter({
 
   useEffect(() => {
     if (!inView) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      setDisplay(value);
-      return;
-    }
+    if (prefersReducedMotion()) return;
 
     let frame = 0;
     const start = performance.now();
@@ -48,7 +51,7 @@ export function Counter({
   return (
     <span ref={ref} className={cn("tabular-nums", className)}>
       {prefix}
-      {display.toFixed(decimals)}
+      {(prefersReducedMotion() ? value : display).toFixed(decimals)}
       {suffix}
     </span>
   );

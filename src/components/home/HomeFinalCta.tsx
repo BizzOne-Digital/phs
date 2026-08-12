@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CmsImage } from "@/components/cms/CmsImage";
 import { PhoneCall } from "lucide-react";
 import { Reveal } from "@/components/animations/Reveal";
 import { Section } from "@/components/ui/Section";
@@ -12,10 +12,12 @@ export function HomeFinalCta({
   phone,
   email,
   emergencyAvailability,
+  images,
 }: {
   phone: string;
   email: string;
   emergencyAvailability: string;
+  images?: Array<{ url?: string; alt?: string }>;
 }) {
   return (
     <Section className="!pt-8">
@@ -23,9 +25,10 @@ export function HomeFinalCta({
         <Reveal direction="scale">
           <div className="relative overflow-hidden rounded-3xl electric-border">
             <div className="absolute inset-0">
-              <Image
-                src={SITE_IMAGES.home.ctaHome}
-                alt={IMAGE_ALTS.residentialHome}
+              <CmsImage
+                src={images?.[0]?.url}
+                fallback={SITE_IMAGES.home.ctaHome}
+                alt={images?.[0]?.alt || IMAGE_ALTS.residentialHome}
                 fill
                 className="object-cover opacity-30"
                 sizes="100vw"

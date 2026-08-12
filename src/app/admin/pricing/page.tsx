@@ -19,6 +19,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, Plus, Pencil, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { deferEffect } from "@/lib/defer-effect";
 import {
   PageHeader,
   AdminCard,
@@ -155,7 +156,9 @@ export default function AdminPricingPage() {
   }
 
   useEffect(() => {
-    load();
+    deferEffect(() => {
+      void load();
+    });
   }, []);
 
   async function onDragEnd(event: DragEndEvent) {

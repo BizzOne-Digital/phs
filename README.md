@@ -20,7 +20,7 @@ Production-ready Next.js website + admin portal for Premier Home Services, servi
 mongodb://127.0.0.1:27017
 ```
 
-4. After seeding, open the database named in your `MONGODB_URI` (e.g. **`phs`** or **`vnec`**) to browse collections (`services`, `pages`, `blogposts`, `leads`, `sitesettings`, etc.).
+4. After seeding, open the database named in your `MONGODB_URI` (e.g. **`phs`**) to browse collections (`services`, `pages`, `blogposts`, `leads`, `sitesettings`, etc.).
 
 For Atlas, paste your Atlas URI into `.env.local` as `MONGODB_URI`.
 

@@ -1,13 +1,19 @@
-import Image from "next/image";
+import { CmsImage } from "@/components/cms/CmsImage";
 import { Reveal, RevealStagger } from "@/components/animations/Reveal";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SERVICE_AREAS } from "@/lib/constants";
-import { PLACEHOLDER_IMAGES, IMAGE_ALTS } from "@/lib/placeholders";
+import { IMAGE_ALTS } from "@/lib/placeholders";
 import { SITE_IMAGES } from "@/lib/site-images";
 
-export function HomeServiceAreas({ serviceArea }: { serviceArea: string }) {
+export function HomeServiceAreas({
+  serviceArea,
+  images,
+}: {
+  serviceArea: string;
+  images?: Array<{ url?: string; alt?: string }>;
+}) {
   return (
     <Section>
       <Container className="grid items-center gap-12 lg:grid-cols-2">
@@ -30,9 +36,10 @@ export function HomeServiceAreas({ serviceArea }: { serviceArea: string }) {
         </Reveal>
         <Reveal direction="right" delay={0.12} className="relative">
           <div className="relative aspect-[4/3] overflow-hidden rounded-3xl electric-border">
-            <Image
-              src={SITE_IMAGES.home.areasSkyline}
-              alt={IMAGE_ALTS.torontoSkyline}
+            <CmsImage
+              src={images?.[0]?.url}
+              fallback={SITE_IMAGES.home.areasSkyline}
+              alt={images?.[0]?.alt || IMAGE_ALTS.torontoSkyline}
               fill
               className="object-cover"
               sizes="(max-width:1024px) 100vw, 45vw"
@@ -40,9 +47,10 @@ export function HomeServiceAreas({ serviceArea }: { serviceArea: string }) {
           </div>
           <div className="absolute -bottom-5 right-6 hidden w-40 overflow-hidden rounded-2xl border border-white/10 md:block">
             <div className="relative aspect-[4/3]">
-              <Image
-                src={SITE_IMAGES.home.areasOffice}
-                alt={IMAGE_ALTS.officeBuilding}
+              <CmsImage
+                src={images?.[1]?.url}
+                fallback={SITE_IMAGES.home.areasOffice}
+                alt={images?.[1]?.alt || IMAGE_ALTS.officeBuilding}
                 fill
                 className="object-cover"
                 sizes="160px"

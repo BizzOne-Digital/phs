@@ -1,11 +1,11 @@
-import { randomUUID } from "crypto";
+import { randomBytes } from "crypto";
 import { connectDB } from "@/lib/db";
 import { StoredUpload } from "@/models/StoredUpload";
 import { UPLOAD_FOLDERS, type UploadFolder } from "@/lib/upload/types";
 
 export { UPLOAD_FOLDERS, type UploadFolder };
 
-export const MAX_UPLOAD_BYTES = 4.5 * 1024 * 1024;
+export const MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
 
 const ALLOWED_MIME: Record<string, string> = {
   "image/jpeg": "jpg",
@@ -49,19 +49,9 @@ function extensionForMime(mimeType: string): string {
   return ALLOWED_MIME[mimeType] || "bin";
 }
 
-function sanitizeBaseName(name: string): string {
-  const bare = name.replace(/\.[^.]+$/, "");
-  const cleaned = bare
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 40);
-  return cleaned || "image";
-}
-
-export function makeUploadFilename(originalName: string, mimeType: string): string {
+export function makeUploadFilename(_originalName: string, mimeType: string): string {
   const ext = extensionForMime(mimeType);
-  return `${sanitizeBaseName(originalName)}-${randomUUID().slice(0, 8)}.${ext}`;
+  return `${Date.now()}-${randomBytes(4).toString("hex")}.${ext}`;
 }
 
 export async function saveFolderUpload(
@@ -81,7 +71,7 @@ export async function saveFolderUpload(
     throw new Error("Empty file.");
   }
   if (file.size > MAX_UPLOAD_BYTES) {
-    throw new Error("Image must be 4.5MB or smaller. Try compressing before upload.");
+    throw new Error("Image must be 8MB or smaller. Try compressing before upload.");
   }
 
   const buffer = Buffer.from(await file.arrayBuffer());

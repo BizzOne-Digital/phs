@@ -21,7 +21,7 @@ export function HomeTestimonialsCarousel({ testimonials }: { testimonials: Testi
         <SectionHeading
           eyebrow="Testimonials"
           title="What clients say about working with Premier Home Services"
-          description="Sample and live testimonials are managed in the admin portal."
+          description="Trusted by homeowners and businesses across the GTA."
           align="center"
         />
         <div className="relative mx-auto mt-12 max-w-3xl">
@@ -44,9 +44,6 @@ export function HomeTestimonialsCarousel({ testimonials }: { testimonials: Testi
               <footer className="mt-6">
                 <p className="font-semibold text-white">{current.attribution}</p>
                 {current.role ? <p className="text-sm text-muted">{current.role}</p> : null}
-                {current.isSample ? (
-                  <p className="mt-2 text-xs uppercase tracking-wider text-amber/80">Editable sample</p>
-                ) : null}
               </footer>
             </motion.blockquote>
           </AnimatePresence>

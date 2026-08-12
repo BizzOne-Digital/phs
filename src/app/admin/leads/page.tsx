@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Download, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
@@ -62,7 +62,7 @@ export default function AdminLeadsPage() {
   const [saving, setSaving] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams();
@@ -80,12 +80,14 @@ export default function AdminLeadsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [q, status, category]);
 
   useEffect(() => {
-    const t = setTimeout(load, 250);
+    const t = setTimeout(() => {
+      void load();
+    }, 250);
     return () => clearTimeout(t);
-  }, [q, status, category]);
+  }, [load]);
 
   const sorted = useMemo(() => {
     const copy = [...leads];

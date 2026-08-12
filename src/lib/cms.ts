@@ -1,4 +1,5 @@
 import type { Page, PageSection } from "@/types";
+import { resolveCmsImage, resolveCmsImages } from "@/lib/upload/resolve";
 
 export function visibleSections(page: Page | null | undefined): PageSection[] {
   if (!page?.sections?.length) return [];
@@ -21,4 +22,31 @@ export function sectionText(
 ): string {
   const value = section?.[field];
   return typeof value === "string" && value.trim() ? value : fallback;
+}
+
+/** Resolved CMS image URL at index with static fallback. */
+export function sectionImageUrl(
+  section: PageSection | undefined,
+  index: number,
+  fallback: string
+): string {
+  return resolveCmsImage(section?.images?.[index]?.url, fallback);
+}
+
+export function sectionImageAlt(
+  section: PageSection | undefined,
+  index: number,
+  fallback = ""
+): string {
+  const alt = section?.images?.[index]?.alt;
+  return typeof alt === "string" && alt.trim() ? alt : fallback;
+}
+
+export function sectionImageList(
+  section: PageSection | undefined,
+  fallbacks: string[] = []
+) {
+  const cms = resolveCmsImages(section?.images);
+  if (cms.length) return cms;
+  return fallbacks.map((url) => ({ url, alt: "" }));
 }

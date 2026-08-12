@@ -22,11 +22,13 @@ import { CSS } from "@dnd-kit/utilities";
 import { GripVertical, Eye, EyeOff, ChevronDown, ChevronUp, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { deferEffect } from "@/lib/defer-effect";
 import { PageHeader, AdminCard, FieldLabel, TextInput, TextTextarea, TextSelect } from "@/components/admin/AdminForm";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
 import { ImageUploadField } from "@/components/admin/ImageUploadField";
+import { SectionImagesEditor } from "@/components/admin/SectionImagesEditor";
 
 interface Section {
   _id?: string;
@@ -212,38 +214,11 @@ function SortableSection({
               onChange={(e) => onChange({ background: e.target.value })}
             />
           </div>
-          <div className="md:col-span-2">
-            <FieldLabel>Section images</FieldLabel>
-            <div className="mt-2 grid gap-3 sm:grid-cols-2">
-              {[0, 1, 2, 3].map((slot) => {
-                const images = section.images || [];
-                const current = images[slot]?.url || "";
-                return (
-                  <ImageUploadField
-                    key={slot}
-                    label={`Image ${slot + 1}`}
-                    folder="pages"
-                    value={current}
-                    onChange={(url) => {
-                      const next = [...(section.images || [])];
-                      while (next.length <= slot) {
-                        next.push({ url: "", alt: section.heading || section.key });
-                      }
-                      if (!url) {
-                        next.splice(slot, 1);
-                      } else {
-                        next[slot] = {
-                          url,
-                          alt: next[slot]?.alt || section.heading || section.key,
-                        };
-                      }
-                      onChange({ images: next.filter((img) => img.url) });
-                    }}
-                  />
-                );
-              })}
-            </div>
-          </div>
+          <SectionImagesEditor
+            images={section.images}
+            folder="pages"
+            onChange={(images) => onChange({ images })}
+          />
         </div>
       ) : null}
     </div>
@@ -283,7 +258,9 @@ export default function AdminPageEditor() {
   }, [slug]);
 
   useEffect(() => {
-    load();
+    deferEffect(() => {
+      void load();
+    });
   }, [load]);
 
   const dirty = useMemo(() => {
@@ -330,7 +307,11 @@ export default function AdminPageEditor() {
         seoDescription: page.seoDescription,
         ogImage: page.ogImage,
         status: status || page.status,
-        sections: page.sections.map((s, i) => ({ ...s, order: i })),
+        sections: page.sections.map((s, i) => ({
+          ...s,
+          order: i,
+          images: (s.images || []).filter((img) => img.url?.trim()),
+        })),
       };
       const data = await adminFetch<{ page: PageDoc }>(`/api/pages/${slug}`, {
         method: "PUT",

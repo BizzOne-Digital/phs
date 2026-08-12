@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Plus, Wrench } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { deferEffect } from "@/lib/defer-effect";
 import { createSlug } from "@/lib/utils";
 import { PageHeader, AdminCard } from "@/components/admin/AdminForm";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -41,7 +42,9 @@ export default function AdminServicesPage() {
   }
 
   useEffect(() => {
-    load();
+    deferEffect(() => {
+      void load();
+    });
   }, []);
 
   async function createService() {

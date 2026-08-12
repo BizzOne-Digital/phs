@@ -6,17 +6,15 @@ import { Droplets, Wind, Zap } from "lucide-react";
 
 const STORAGE_KEY = "phs-intro-seen";
 
-export function CinematicIntro() {
-  const [visible, setVisible] = useState(false);
-  const [phase, setPhase] = useState(0);
+function shouldShowIntro() {
+  if (typeof window === "undefined") return false;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return !reduce && sessionStorage.getItem(STORAGE_KEY) !== "1";
+}
 
-  useEffect(() => {
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce || sessionStorage.getItem(STORAGE_KEY) === "1") {
-      return;
-    }
-    setVisible(true);
-  }, []);
+export function CinematicIntro() {
+  const [visible, setVisible] = useState(shouldShowIntro);
+  const [phase, setPhase] = useState(0);
 
   useEffect(() => {
     if (!visible) return;
@@ -30,7 +28,6 @@ export function CinematicIntro() {
     ];
 
     return () => timers.forEach(clearTimeout);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [visible]);
 
   function finish() {

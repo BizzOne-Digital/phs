@@ -4,8 +4,10 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "res.cloudinary.com" },
-      { protocol: "https", hostname: "**.cloudinary.com" },
+    ],
+    localPatterns: [
+      { pathname: "/api/uploads/**" },
+      { pathname: "/images/**" },
     ],
   },
   experimental: {

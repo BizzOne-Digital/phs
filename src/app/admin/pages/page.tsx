@@ -24,7 +24,10 @@ export default function AdminPagesListPage() {
 
   useEffect(() => {
     adminFetch<{ pages: PageItem[] }>("/api/pages")
-      .then((d) => setPages(d.pages))
+      .then((d) => setPages(d.pages ?? []))
+      .catch((e) => {
+        console.error("Failed to load pages:", e);
+      })
       .finally(() => setLoading(false));
   }, []);
 

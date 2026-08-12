@@ -30,7 +30,6 @@ import {
   withFallback,
 } from "@/lib/constants";
 import { findSection, sectionText } from "@/lib/cms";
-import { resolveCmsImage } from "@/lib/upload/resolve";
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPageBySlug("home").catch(() => null);
@@ -62,6 +61,11 @@ export default async function HomePage() {
 
   const hero = findSection(homePage, "hero");
   const about = findSection(homePage, "about-preview");
+  const emergency = findSection(homePage, "emergency-feature");
+  const coreServices = findSection(homePage, "core-services");
+  const process = findSection(homePage, "process");
+  const serviceAreas = findSection(homePage, "service-areas");
+  const finalCta = findSection(homePage, "final-cta");
 
   return (
     <>
@@ -77,12 +81,14 @@ export default async function HomePage() {
           "subheading",
           "Fast, reliable electrical, HVAC, and plumbing support for homes and businesses across the Greater Toronto Area—scheduled appointments and 24/7 emergency response."
         )}
+        images={hero?.images}
       />
       <HomeTrustMarquee />
-      <HomeCoreServices services={serviceList} />
+      <HomeCoreServices services={serviceList} images={coreServices?.images} />
       <HomeEmergencyFeature
         services={serviceList}
         phone={settings.emergencyPhone || settings.phone}
+        images={emergency?.images}
       />
       <HomeAboutPreview
         eyebrow={sectionText(about, "eyebrow", "About Premier Home Services")}
@@ -98,26 +104,23 @@ export default async function HomePage() {
         )}
         ctaLabel={sectionText(about, "ctaLabel", "Learn more about us")}
         ctaUrl={sectionText(about, "ctaUrl", "/about")}
-        imageUrl={about?.images?.[0]?.url ? resolveCmsImage(about.images[0].url) : undefined}
-        imageAlt={about?.images?.[0]?.alt}
+        images={about?.images}
       />
       <HomeWhyChooseUs />
-      <HomeProcessTimeline />
-      <HomePricingPreview
-        items={pricingList}
-        disclaimer={settings.pricingDisclaimer || BUSINESS.pricingDisclaimer}
-      />
+      <HomeProcessTimeline images={process?.images} />
+      <HomePricingPreview items={pricingList} />
       <HomeSpecialOffer
         text={settings.specialOfferText}
         active={settings.specialOfferActive}
       />
-      <HomeServiceAreas serviceArea={settings.serviceArea} />
+      <HomeServiceAreas serviceArea={settings.serviceArea} images={serviceAreas?.images} />
       <HomeTestimonialsCarousel testimonials={testimonialList} />
       <HomeBlogPreview posts={blogList} />
       <HomeFinalCta
         phone={settings.emergencyPhone || settings.phone}
         email={settings.email}
         emergencyAvailability={settings.emergencyAvailability}
+        images={finalCta?.images}
       />
     </>
   );

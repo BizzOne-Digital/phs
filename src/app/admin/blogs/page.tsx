@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Plus, Newspaper } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { deferEffect } from "@/lib/defer-effect";
 import { formatDate } from "@/lib/utils";
 import { PageHeader, AdminCard, TextSelect } from "@/components/admin/AdminForm";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -27,7 +28,7 @@ export default function AdminBlogsPage() {
   const [status, setStatus] = useState("");
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  async function load() {
+  const load = useCallback(async () => {
     setLoading(true);
     try {
       const qs = status ? `?status=${status}` : "";
@@ -38,11 +39,13 @@ export default function AdminBlogsPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [status]);
 
   useEffect(() => {
-    load();
-  }, [status]);
+    deferEffect(() => {
+      void load();
+    });
+  }, [load]);
 
   async function confirmDelete() {
     if (!deleteId) return;

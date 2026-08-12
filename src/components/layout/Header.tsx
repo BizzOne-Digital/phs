@@ -57,9 +57,11 @@ export function Header({ settings, services }: HeaderProps) {
   }, []);
 
   useEffect(() => {
-    setMobileOpen(false);
-    setServicesOpen(false);
-    setMobileServicesOpen(false);
+    queueMicrotask(() => {
+      setMobileOpen(false);
+      setServicesOpen(false);
+      setMobileServicesOpen(false);
+    });
   }, [pathname]);
 
   useEffect(() => {

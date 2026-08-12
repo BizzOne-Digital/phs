@@ -5,12 +5,12 @@ import Image from "next/image";
 import { Upload, Trash2, Search, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { deferEffect } from "@/lib/defer-effect";
 import { compressImageForUpload } from "@/lib/upload/compress";
 import { resolveCmsImage } from "@/lib/upload/resolve";
 import {
   PageHeader,
   AdminCard,
-  FieldLabel,
   TextInput,
 } from "@/components/admin/AdminForm";
 import { Skeleton } from "@/components/ui/Skeleton";
@@ -51,8 +51,10 @@ export default function AdminMediaPage() {
   }, [q]);
 
   useEffect(() => {
-    load("");
-  }, []);
+    deferEffect(() => {
+      void load("");
+    });
+  }, [load]);
 
   async function onUpload(files: FileList | null) {
     if (!files?.length) return;

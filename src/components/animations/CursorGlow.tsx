@@ -3,22 +3,26 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
+function cursorGlowEnabled() {
+  if (typeof window === "undefined") return false;
+  const fine = window.matchMedia("(pointer: fine)").matches;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  return fine && !reduce;
+}
+
 export function CursorGlow() {
   const [pos, setPos] = useState({ x: -999, y: -999 });
-  const [enabled, setEnabled] = useState(false);
+  const [enabled] = useState(cursorGlowEnabled);
 
   useEffect(() => {
-    const fine = window.matchMedia("(pointer: fine)").matches;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (!fine || reduce) return;
-    setEnabled(true);
+    if (!enabled) return;
 
     const onMove = (e: PointerEvent) => {
       setPos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     return () => window.removeEventListener("pointermove", onMove);
-  }, []);
+  }, [enabled]);
 
   if (!enabled) return null;
 

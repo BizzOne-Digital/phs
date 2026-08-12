@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       return jsonError('folder must be one of: pages, products, gallery, misc', 400);
     }
     if (file.size > MAX_UPLOAD_BYTES) {
-      return jsonError("Image must be 4.5MB or smaller", 413);
+      return jsonError("Image must be 8MB or smaller", 413);
     }
 
     const saved = await saveFolderUpload(file, folderRaw);

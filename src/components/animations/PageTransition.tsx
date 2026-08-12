@@ -4,20 +4,26 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 
+function prefersReducedMotion() {
+  return (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+}
+
 export function PageTransition() {
   const pathname = usePathname();
   const [flash, setFlash] = useState(false);
-  const [reduce, setReduce] = useState(false);
-
-  useEffect(() => {
-    setReduce(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
-  }, []);
+  const reduce = prefersReducedMotion();
 
   useEffect(() => {
     if (reduce || pathname.startsWith("/admin")) return;
-    setFlash(true);
-    const t = window.setTimeout(() => setFlash(false), 620);
-    return () => window.clearTimeout(t);
+    const show = window.setTimeout(() => setFlash(true), 0);
+    const hide = window.setTimeout(() => setFlash(false), 620);
+    return () => {
+      window.clearTimeout(show);
+      window.clearTimeout(hide);
+    };
   }, [pathname, reduce]);
 
   return (

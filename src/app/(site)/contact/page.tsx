@@ -1,21 +1,26 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import { ContactForm } from "@/components/forms/ContactForm";
-import { getSettings } from "@/lib/data";
-import { IMAGE_ALTS } from "@/lib/placeholders";
+import { CmsHero, CmsBodySections } from "@/components/cms/CmsPageSections";
+import { CmsImageGrid } from "@/components/cms/CmsImageGrid";
+import { CmsImage } from "@/components/cms/CmsImage";
+import { getSettings, getPageBySlug } from "@/lib/data";
+import { findSection, sectionText, visibleSections } from "@/lib/cms";
 import { SITE_IMAGES } from "@/lib/site-images";
+import { IMAGE_ALTS } from "@/lib/placeholders";
 import { phoneHref } from "@/lib/utils";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description:
-    "Contact Premier Home Services for electrical, HVAC, and plumbing service across the Greater Toronto Area. Call 437-256-1028.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPageBySlug("contact").catch(() => null);
+  return {
+    title: page?.seoTitle || "Contact",
+    description:
+      page?.seoDescription ||
+      "Contact Premier Home Services for electrical, HVAC, and plumbing service across the Greater Toronto Area.",
+  };
+}
 
 const FAQS = [
   {
@@ -33,11 +38,8 @@ const FAQS = [
 ];
 
 export default async function ContactPage() {
-  let settings;
-  try {
-    settings = await getSettings();
-  } catch {
-    settings = {
+  const [settings, page] = await Promise.all([
+    getSettings().catch(() => ({
       phone: "437-256-1028",
       emergencyPhone: "437-256-1028",
       email: "contact@premierhomeservice.com",
@@ -45,28 +47,17 @@ export default async function ContactPage() {
       businessHours: "Monday–Saturday: 9:00 AM–5:00 PM",
       emergencyAvailability: "Available 24/7",
       mapEmbed: "",
-    };
-  }
+    })),
+    getPageBySlug("contact").catch(() => null),
+  ]);
 
   const phone = settings.emergencyPhone || settings.phone;
+  const details = findSection(page, "details");
+  const mapSection = findSection(page, "map");
 
   return (
     <div>
-      <section className="section-pad pb-10 pt-10">
-        <Container>
-          <Breadcrumbs items={[{ label: "Contact" }]} />
-          <div className="mt-6 grid items-center gap-8 lg:grid-cols-2">
-            <SectionHeading
-              eyebrow="Contact"
-              title="Talk with the Premier Home Services team"
-              description="Reach us for scheduled work or 24/7 emergencies across the Greater Toronto Area."
-            />
-            <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">
-              <Image src={SITE_IMAGES.contact.hero} alt={IMAGE_ALTS.torontoSkyline} fill className="object-cover" sizes="50vw" priority />
-            </div>
-          </div>
-        </Container>
-      </section>
+      <CmsHero section={findSection(page, "hero")} crumbs={[{ label: "Contact" }]} />
 
       <section className="section-pad pt-0">
         <Container className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr]">
@@ -103,17 +94,12 @@ export default async function ContactPage() {
             <a href={phoneHref(phone)} className="btn-emergency w-full justify-center">
               <Phone className="h-4 w-4" /> Call 24/7 Emergency Line
             </a>
-            <div className="grid grid-cols-2 gap-3 pt-2">
-              <div className="relative aspect-square overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.contact.van} alt={IMAGE_ALTS.van} fill className="object-cover" sizes="20vw" />
-              </div>
-              <div className="relative aspect-square overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.contact.emergency} alt={IMAGE_ALTS.emergencyResponse} fill className="object-cover" sizes="20vw" />
-              </div>
-              <div className="relative col-span-2 aspect-[21/9] overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.contact.office} alt={IMAGE_ALTS.officeBuilding} fill className="object-cover" sizes="40vw" />
-              </div>
-            </div>
+            <CmsImageGrid
+              images={details?.images}
+              fallbacks={[SITE_IMAGES.contact.van, SITE_IMAGES.contact.emergency, SITE_IMAGES.contact.office]}
+              alts={[IMAGE_ALTS.van, IMAGE_ALTS.emergencyResponse, IMAGE_ALTS.officeBuilding]}
+              layout="contact"
+            />
           </div>
           <ContactForm />
         </Container>
@@ -121,15 +107,30 @@ export default async function ContactPage() {
 
       <section className="section-pad pt-0">
         <Container>
-          <SectionHeading eyebrow="Service Area" title="Greater Toronto Area coverage" className="mb-6" />
+          <SectionHeading
+            eyebrow={sectionText(mapSection, "eyebrow", "Service Area")}
+            title={sectionText(mapSection, "heading", "Greater Toronto Area coverage")}
+            className="mb-6"
+          />
           {settings.mapEmbed ? (
             <div className="overflow-hidden rounded-3xl border border-white/10" dangerouslySetInnerHTML={{ __html: settings.mapEmbed }} />
           ) : (
             <div className="relative aspect-[21/9] overflow-hidden rounded-3xl">
-              <Image src={SITE_IMAGES.contact.mapFallback} alt={IMAGE_ALTS.nightCity} fill className="object-cover" sizes="100vw" />
+              <CmsImage
+                src={mapSection?.images?.[0]?.url}
+                fallback={SITE_IMAGES.contact.mapFallback}
+                alt={mapSection?.images?.[0]?.alt || IMAGE_ALTS.nightCity}
+                fill
+                className="object-cover"
+                sizes="100vw"
+              />
               <div className="absolute inset-0 flex items-end bg-gradient-to-t from-[#060b16] to-transparent p-8">
                 <p className="max-w-xl text-slate-200">
-                  We serve residential and commercial properties across the GTA. Contact us to confirm your location.
+                  {sectionText(
+                    mapSection,
+                    "body",
+                    "We serve residential and commercial properties across the GTA. Contact us to confirm your location."
+                  )}
                 </p>
               </div>
             </div>
@@ -137,19 +138,18 @@ export default async function ContactPage() {
         </Container>
       </section>
 
+      <CmsBodySections sections={visibleSections(page)} skipKeys={["hero", "details", "form", "map"]} />
+
       <section className="section-pad pt-0">
         <Container>
-          <SectionHeading eyebrow="FAQ" title="Contact questions" className="mb-6" />
-          <div className="space-y-3">
-            {FAQS.map((f) => (
-              <details key={f.q} className="glass rounded-2xl px-5 py-4">
-                <summary className="cursor-pointer font-medium text-white">{f.q}</summary>
-                <p className="mt-3 text-sm text-slate-400">{f.a}</p>
-              </details>
+          <SectionHeading eyebrow="FAQ" title="Common questions" className="mb-6" />
+          <div className="space-y-4">
+            {FAQS.map((faq) => (
+              <div key={faq.q} className="glass rounded-2xl p-5">
+                <h3 className="font-semibold text-white">{faq.q}</h3>
+                <p className="mt-2 text-sm text-slate-400">{faq.a}</p>
+              </div>
             ))}
-          </div>
-          <div className="mt-10 text-center">
-            <Link href="/request-service" className="btn-primary">Start a service request</Link>
           </div>
         </Container>
       </section>

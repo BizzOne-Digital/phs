@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
+import { deferEffect } from "@/lib/defer-effect";
 import { createSlug } from "@/lib/utils";
 import {
   PageHeader,
@@ -75,7 +76,9 @@ export default function AdminServiceEditorPage() {
   }, [id]);
 
   useEffect(() => {
-    load();
+    deferEffect(() => {
+      void load();
+    });
   }, [load]);
 
   async function save() {

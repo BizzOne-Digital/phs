@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
 import type { PageSection } from "@/types";
 import { cn } from "@/lib/utils";
-import { resolveCmsImage, resolveCmsImages } from "@/lib/upload/resolve";
+import { resolveCmsImages } from "@/lib/upload/resolve";
 
 function SectionImages({
   images,
@@ -35,12 +35,14 @@ function SectionImages({
 
   return (
     <div className={cn("grid grid-cols-2 gap-3", className)}>
-      {list.slice(0, 4).map((img, i) => (
+      {list.map((img, i) => (
         <div
           key={`${img.url}-${i}`}
           className={cn(
             "relative overflow-hidden rounded-2xl",
-            list.length === 3 && i === 0 ? "col-span-2 aspect-[16/10]" : "aspect-[4/3]"
+            list.length === 3 && i === 0 ? "col-span-2 aspect-[16/10]" : "aspect-[4/3]",
+            list.length === 1 && "col-span-2 aspect-[16/10]",
+            list.length >= 4 && i >= 2 && "col-span-2 aspect-[21/9]"
           )}
         >
           <Image

@@ -1,11 +1,11 @@
-import Image from "next/image";
+import { CmsImage } from "@/components/cms/CmsImage";
 import { PhoneCall } from "lucide-react";
 import { Reveal } from "@/components/animations/Reveal";
 import { Section } from "@/components/ui/Section";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Button } from "@/components/ui/Button";
-import { PLACEHOLDER_IMAGES, IMAGE_ALTS } from "@/lib/placeholders";
+import { IMAGE_ALTS } from "@/lib/placeholders";
 import { SITE_IMAGES } from "@/lib/site-images";
 import { phoneHref } from "@/lib/utils";
 import type { Service } from "@/types";
@@ -13,9 +13,11 @@ import type { Service } from "@/types";
 export function HomeEmergencyFeature({
   services,
   phone,
+  images,
 }: {
   services: Service[];
   phone: string;
+  images?: Array<{ url?: string; alt?: string }>;
 }) {
   const emergencies =
     services.filter((s) => s.isEmergency).length > 0
@@ -50,9 +52,10 @@ export function HomeEmergencyFeature({
         </Reveal>
         <Reveal direction="right" delay={0.15} className="relative">
           <div className="relative aspect-[4/5] overflow-hidden rounded-3xl electric-border">
-            <Image
-              src={SITE_IMAGES.home.emergencyMain}
-              alt={IMAGE_ALTS.emergencyResponse}
+            <CmsImage
+              src={images?.[0]?.url}
+              fallback={SITE_IMAGES.home.emergencyMain}
+              alt={images?.[0]?.alt || IMAGE_ALTS.emergencyResponse}
               fill
               className="object-cover"
               sizes="(max-width:1024px) 100vw, 45vw"
@@ -61,7 +64,7 @@ export function HomeEmergencyFeature({
           </div>
           <div className="absolute -bottom-4 -left-4 hidden w-48 overflow-hidden rounded-2xl border border-electric/30 md:block">
             <div className="relative aspect-square">
-              <Image src={SITE_IMAGES.home.emergencyVan} alt={IMAGE_ALTS.van} fill className="object-cover" sizes="192px" />
+              <CmsImage src={images?.[1]?.url} fallback={SITE_IMAGES.home.emergencyVan} alt={images?.[1]?.alt || IMAGE_ALTS.van} fill className="object-cover" sizes="192px" />
             </div>
           </div>
         </Reveal>

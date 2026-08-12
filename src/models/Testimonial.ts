@@ -4,8 +4,8 @@ import { ImageSchema } from "./Page";
 const TestimonialSchema = new Schema(
   {
     quote: { type: String, required: true },
-    attribution: { type: String, default: "Sample Customer (Editable)" },
-    role: { type: String, default: "Homeowner — Sample" },
+    attribution: { type: String, default: "" },
+    role: { type: String, default: "" },
     serviceCategory: {
       type: String,
       enum: ["electrical", "hvac", "plumbing", "general"],

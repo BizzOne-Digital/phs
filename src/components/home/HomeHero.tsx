@@ -1,12 +1,12 @@
-import Image from "next/image";
 import Link from "next/link";
 import { PhoneCall, ShieldCheck, Clock3, MapPin } from "lucide-react";
 import { Reveal } from "@/components/animations/Reveal";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
-import { PLACEHOLDER_IMAGES, IMAGE_ALTS } from "@/lib/placeholders";
+import { CmsImage } from "@/components/cms/CmsImage";
 import { SITE_IMAGES } from "@/lib/site-images";
+import { IMAGE_ALTS } from "@/lib/placeholders";
 import { phoneHref } from "@/lib/utils";
 import { BUSINESS } from "@/lib/constants";
 
@@ -18,6 +18,7 @@ export function HomeHero({
   eyebrow,
   headline,
   description,
+  images,
 }: {
   phone: string;
   emergencyPhone: string;
@@ -26,13 +27,22 @@ export function HomeHero({
   eyebrow?: string;
   headline?: string;
   description?: string;
+  images?: Array<{ url?: string; alt?: string }>;
 }) {
+  const bg = images?.[0]?.url || SITE_IMAGES.home.heroBg;
+  const bgAlt = images?.[0]?.alt || IMAGE_ALTS.nightCity;
+  const grid = [
+    { src: images?.[1]?.url || SITE_IMAGES.home.heroElectrical, alt: images?.[1]?.alt || IMAGE_ALTS.electricalTech },
+    { src: images?.[2]?.url || SITE_IMAGES.home.heroHvac, alt: images?.[2]?.alt || IMAGE_ALTS.hvacUnit },
+    { src: images?.[3]?.url || SITE_IMAGES.home.heroPlumbing, alt: images?.[3]?.alt || IMAGE_ALTS.plumbingRepair },
+  ];
   return (
     <section className="relative min-h-[auto] overflow-hidden pt-6 sm:pt-10 md:min-h-[88vh] md:pt-16">
       <div className="absolute inset-0">
-        <Image
-          src={SITE_IMAGES.home.heroBg}
-          alt={IMAGE_ALTS.nightCity}
+        <CmsImage
+          src={bg}
+          fallback={SITE_IMAGES.home.heroBg}
+          alt={bgAlt}
           fill
           priority
           className="object-cover opacity-35"
@@ -93,25 +103,13 @@ export function HomeHero({
         <Reveal delay={0.15} direction="right" className="relative">
           <div className="grid grid-cols-2 gap-2.5 sm:gap-4">
             <div className="relative col-span-2 aspect-[16/10] overflow-hidden rounded-2xl electric-border">
-              <Image
-                src={SITE_IMAGES.home.heroElectrical}
-                alt={IMAGE_ALTS.electricalTech}
-                fill
-                className="object-cover"
-                sizes="(max-width:1024px) 100vw, 40vw"
-              />
+              <CmsImage src={grid[0].src} fallback={SITE_IMAGES.home.heroElectrical} alt={grid[0].alt} fill className="object-cover" sizes="(max-width:1024px) 100vw, 40vw" />
             </div>
             <div className="relative aspect-square overflow-hidden rounded-2xl">
-              <Image src={SITE_IMAGES.home.heroHvac} alt={IMAGE_ALTS.hvacUnit} fill className="object-cover" sizes="40vw" />
+              <CmsImage src={grid[1].src} fallback={SITE_IMAGES.home.heroHvac} alt={grid[1].alt} fill className="object-cover" sizes="40vw" />
             </div>
             <div className="relative aspect-square overflow-hidden rounded-2xl">
-              <Image
-                src={SITE_IMAGES.home.heroPlumbing}
-                alt={IMAGE_ALTS.plumbingRepair}
-                fill
-                className="object-cover"
-                sizes="40vw"
-              />
+              <CmsImage src={grid[2].src} fallback={SITE_IMAGES.home.heroPlumbing} alt={grid[2].alt} fill className="object-cover" sizes="40vw" />
             </div>
           </div>
         </Reveal>

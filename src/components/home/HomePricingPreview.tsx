@@ -9,10 +9,8 @@ import type { PricingItem } from "@/types";
 
 export function HomePricingPreview({
   items,
-  disclaimer,
 }: {
   items: PricingItem[];
-  disclaimer: string;
 }) {
   const cards = items.slice(0, 6);
 
@@ -52,9 +50,6 @@ export function HomePricingPreview({
             </article>
           ))}
         </RevealStagger>
-        <p className="mx-auto mt-8 max-w-3xl text-center text-xs leading-relaxed text-muted">
-          {disclaimer}
-        </p>
         <div className="mt-8 text-center">
           <Button href="/pricing" variant="secondary">
             View full pricing

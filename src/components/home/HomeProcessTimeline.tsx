@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CmsImage } from "@/components/cms/CmsImage";
 import { Reveal } from "@/components/animations/Reveal";
 import { Counter } from "@/components/animations/Counter";
 import { Section } from "@/components/ui/Section";
@@ -8,7 +8,11 @@ import { PROCESS_STEPS } from "@/lib/constants";
 import { IMAGE_ALTS } from "@/lib/placeholders";
 import { SITE_IMAGES } from "@/lib/site-images";
 
-export function HomeProcessTimeline() {
+export function HomeProcessTimeline({
+  images,
+}: {
+  images?: Array<{ url?: string; alt?: string }>;
+}) {
   return (
     <Section>
       <Container>
@@ -20,9 +24,10 @@ export function HomeProcessTimeline() {
               description="A clear path so you always know what happens next."
             />
             <div className="relative mt-8 min-h-[220px] flex-1 overflow-hidden rounded-3xl lg:min-h-0">
-              <Image
-                src={SITE_IMAGES.home.process}
-                alt={IMAGE_ALTS.blueprint}
+              <CmsImage
+                src={images?.[0]?.url}
+                fallback={SITE_IMAGES.home.process}
+                alt={images?.[0]?.alt || IMAGE_ALTS.blueprint}
                 fill
                 className="object-cover object-center"
                 sizes="(max-width:1024px) 100vw, 40vw"

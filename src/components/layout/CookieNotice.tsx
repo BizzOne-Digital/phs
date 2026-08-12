@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Cookie } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -12,13 +12,10 @@ export interface CookieNoticeProps {
 }
 
 export function CookieNotice({ analyticsId }: CookieNoticeProps) {
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!analyticsId) return;
-    if (localStorage.getItem(STORAGE_KEY)) return;
-    setVisible(true);
-  }, [analyticsId]);
+  const [visible, setVisible] = useState(() => {
+    if (!analyticsId || typeof window === "undefined") return false;
+    return !localStorage.getItem(STORAGE_KEY);
+  });
 
   if (!analyticsId) return null;
 
