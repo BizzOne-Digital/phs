@@ -55,7 +55,7 @@ export const IMAGE_ALTS: Record<PlaceholderKey, string> = {
   emergencyResponse: "Emergency response technician on call",
   safetyGear: "Safety equipment and protective gear",
   tools: "Professional trade tools and workmanship",
-  teamWork: "Skilled technician completing service work",
+  teamWork: "Homeowner and technician handshake after completed service",
   blueprint: "Technical planning and project layout",
   van: "Service vehicle ready for GTA dispatch",
 };

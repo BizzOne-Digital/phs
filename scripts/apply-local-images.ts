@@ -99,7 +99,11 @@ async function main() {
     setSectionImages(
       sections,
       "about-preview",
-      [SITE_IMAGES.home.aboutMain, SITE_IMAGES.home.process],
+      [
+        SITE_IMAGES.home.aboutMain,
+        SITE_IMAGES.home.aboutTools,
+        SITE_IMAGES.home.aboutSafety,
+      ],
       "About Premier Home Services"
     );
     home.markModified("sections");
