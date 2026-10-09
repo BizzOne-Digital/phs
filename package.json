@@ -10,6 +10,7 @@
     "seed": "tsx --env-file=.env.local scripts/seed.ts",
     "seed:images": "tsx --env-file=.env.local scripts/apply-local-images.ts",
     "images:client": "node scripts/replace-client-images.mjs",
+    "sync:service-photos": "node scripts/sync-service-photos.mjs",
     "seed:fallback": "tsx scripts/seed.ts",
     "typecheck": "tsc --noEmit"
   },

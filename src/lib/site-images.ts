@@ -62,11 +62,7 @@ export const SITE_IMAGES = {
     },
     "electrical-services": {
       hero: I("svc-elec-hero.webp"),
-      gallery: [
-        I("services-card-electrical.webp"), // svc-elec-g1 missing
-        I("svc-elec-g2.webp"),
-        I("svc-elec-g3.webp"),
-      ],
+      gallery: [I("svc-elec-g1.webp"), I("svc-elec-g2.webp"), I("svc-elec-g3.webp")],
       residential: I("svc-elec-res.webp"),
       commercial: I("svc-elec-com.webp"),
       cta: I("svc-elec-cta.webp"),
