@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import Image from "next/image";
 import { ImagePlus, Loader2, Trash2, Replace } from "lucide-react";
+import { isMongoUploadUrl, MongoUploadImage } from "@/components/ui/MongoUploadImage";
 import { toast } from "sonner";
 import { compressImageForUpload } from "@/lib/upload/compress";
 import type { UploadFolder } from "@/lib/upload/types";
@@ -34,7 +35,7 @@ export function ImageUploadField({
   async function maybeDeletePrevious(url?: string) {
     if (!deletePrevious || !url?.startsWith("/api/uploads/")) return;
     try {
-      await fetch(url, { method: "DELETE" });
+      await fetch(url, { method: "DELETE", credentials: "include" });
     } catch {
       /* non-fatal */
     }
@@ -87,14 +88,11 @@ export function ImageUploadField({
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-slate-950/50">
         <div className="relative aspect-[16/10] bg-slate-900">
           {preview ? (
-            <Image
-              src={preview}
-              alt={label}
-              fill
-              unoptimized={preview.startsWith("/api/uploads/")}
-              className="object-cover"
-              sizes="400px"
-            />
+            isMongoUploadUrl(preview) ? (
+              <MongoUploadImage src={preview} alt={label} fill className="object-cover" sizes="400px" />
+            ) : (
+              <Image src={preview} alt={label} fill className="object-cover" sizes="400px" />
+            )
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-2 text-slate-500">
               <ImagePlus className="h-8 w-8 opacity-60" />

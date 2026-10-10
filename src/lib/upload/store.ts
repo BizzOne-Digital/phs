@@ -98,7 +98,10 @@ export async function saveFolderUpload(
 export async function getStoredUpload(folder: UploadFolder, filename: string) {
   if (!isSafeUploadFilename(filename)) return null;
   await connectDB();
-  return StoredUpload.findOne({ folder, filename }).lean();
+  const doc = await StoredUpload.findOne({ folder, filename })
+    .select("folder filename mimeType size data")
+    .exec();
+  return doc ? doc.toObject() : null;
 }
 
 export async function deleteStoredUpload(

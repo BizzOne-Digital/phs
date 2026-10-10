@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
+import { isMongoUploadUrl, MongoUploadImage } from "@/components/ui/MongoUploadImage";
 import { Upload, Trash2, Search, Copy } from "lucide-react";
 import { toast } from "sonner";
 import { adminFetch } from "@/lib/admin-client";
@@ -172,14 +173,23 @@ export default function AdminMediaPage() {
               <AdminCard key={asset._id} className="!p-3">
                 <div className="relative mb-3 aspect-[16/10] overflow-hidden rounded-xl bg-slate-900">
                   {src ? (
-                    <Image
-                      src={src}
-                      alt={asset.alt || "Media"}
-                      fill
-                      unoptimized={src.startsWith("/api/uploads/")}
-                      className="object-cover"
-                      sizes="33vw"
-                    />
+                    isMongoUploadUrl(src) ? (
+                      <MongoUploadImage
+                        src={src}
+                        alt={asset.alt || "Media"}
+                        fill
+                        className="object-cover"
+                        sizes="33vw"
+                      />
+                    ) : (
+                      <Image
+                        src={src}
+                        alt={asset.alt || "Media"}
+                        fill
+                        className="object-cover"
+                        sizes="33vw"
+                      />
+                    )
                   ) : null}
                 </div>
                 <p className="truncate text-xs text-slate-500">{asset.filename || asset._id}</p>

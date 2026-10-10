@@ -5,9 +5,11 @@ import {
   isSafeUploadFilename,
   isUploadFolder,
 } from "@/lib/upload/store";
+import { storedDataToBuffer } from "@/lib/upload/binary";
 import { requireAdmin, handleRouteError, jsonError } from "@/lib/admin";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 type Ctx = { params: Promise<{ folder: string; filename: string }> };
 
@@ -22,13 +24,10 @@ export async function GET(_req: Request, ctx: Ctx) {
     }
 
     const doc = await getStoredUpload(folder, filename);
-    if (!doc?.data) {
+    const body = storedDataToBuffer(doc?.data);
+    if (!body?.length) {
       return jsonError("Not found", 404);
     }
-
-    const body = Buffer.isBuffer(doc.data)
-      ? doc.data
-      : Buffer.from((doc.data as { buffer?: ArrayBuffer } | Uint8Array) as Uint8Array);
 
     return new NextResponse(new Uint8Array(body), {
       status: 200,
