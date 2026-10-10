@@ -40,13 +40,13 @@ export default async function RequestServicePage({ searchParams }: Props) {
             />
             <div className="grid grid-cols-2 gap-3">
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.request.hero[0]} alt={IMAGE_ALTS.tools} fill className="object-cover" sizes="25vw" />
+                <Image src={SITE_IMAGES.request.hero[0]} alt={IMAGE_ALTS.electricalPanel} fill className="object-cover" sizes="25vw" />
               </div>
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.request.hero[1]} alt={IMAGE_ALTS.electricalTech} fill className="object-cover" sizes="25vw" />
+                <Image src={SITE_IMAGES.request.hero[1]} alt={IMAGE_ALTS.thermostat} fill className="object-cover" sizes="25vw" />
               </div>
               <div className="relative col-span-2 aspect-[21/9] overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.request.hero[2]} alt={IMAGE_ALTS.hvacTech} fill className="object-cover" sizes="50vw" />
+                <Image src={SITE_IMAGES.request.hero[2]} alt={IMAGE_ALTS.bathroom} fill className="object-cover" sizes="50vw" />
               </div>
             </div>
           </div>
@@ -65,13 +65,13 @@ export default async function RequestServicePage({ searchParams }: Props) {
       <section className="pb-12 pt-2 sm:pb-16 md:pb-20">
         <Container className="grid gap-4 md:grid-cols-3">
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image src={SITE_IMAGES.request.gallery[0]} alt={IMAGE_ALTS.plumbingRepair} fill className="object-cover" sizes="33vw" />
+            <Image src={SITE_IMAGES.request.gallery[0]} alt={IMAGE_ALTS.electricalTech} fill className="object-cover" sizes="33vw" />
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image src={SITE_IMAGES.request.gallery[1]} alt={IMAGE_ALTS.safetyGear} fill className="object-cover" sizes="33vw" />
+            <Image src={SITE_IMAGES.request.gallery[1]} alt={IMAGE_ALTS.hvacUnit} fill className="object-cover" sizes="33vw" />
           </div>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-            <Image src={SITE_IMAGES.request.gallery[2]} alt={IMAGE_ALTS.emergencyResponse} fill className="object-cover" sizes="33vw" />
+            <Image src={SITE_IMAGES.request.gallery[2]} alt={IMAGE_ALTS.plumbingRepair} fill className="object-cover" sizes="33vw" />
           </div>
         </Container>
       </section>

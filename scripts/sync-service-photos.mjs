@@ -48,4 +48,23 @@ for (const name of EXPECTED) {
   copied++;
 }
 
+const REQUEST_MAP = {
+  "request-hero-1.webp": "svc-elec-g1.webp",
+  "request-hero-2.webp": "svc-hvac-g2.webp",
+  "request-hero-3.webp": "svc-plumb-g2.webp",
+  "request-gal-1.webp": "svc-em-elec-g2.webp",
+  "request-gal-2.webp": "svc-em-hvac-g1.webp",
+  "request-gal-3.webp": "svc-em-plumb-g3.webp",
+};
+
+for (const [dest, src] of Object.entries(REQUEST_MAP)) {
+  const from = path.join(DEST, src);
+  if (!fs.existsSync(from)) {
+    console.warn("Skip request image (missing source):", src);
+    continue;
+  }
+  fs.copyFileSync(from, path.join(DEST, dest));
+}
+
 console.log(`Copied ${copied}/${EXPECTED.length} service gallery images to public/images/`);
+console.log("Updated request-service hero + gallery images from service photos.");
