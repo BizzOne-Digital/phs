@@ -66,5 +66,26 @@ for (const [dest, src] of Object.entries(REQUEST_MAP)) {
   fs.copyFileSync(from, path.join(DEST, dest));
 }
 
+const BLOG_MAP = {
+  "blog-hero-1.webp": "svc-elec-g3.webp",
+  "blog-hero-2.webp": "svc-hvac-g1.webp",
+  "blog-hero-3.webp": "svc-plumb-g1.webp",
+  "blog-footer-1.webp": "home-areas-skyline.webp",
+  "blog-footer-2.webp": "home-emergency-van.webp",
+  "blog-feat-electrical.webp": "svc-em-elec-g1.webp",
+  "blog-feat-hvac.webp": "svc-em-hvac-g2.webp",
+  "blog-feat-plumbing.webp": "svc-em-plumb-g2.webp",
+  "blog-feat-maintenance.webp": "svc-hvac-g3.webp",
+};
+
+for (const [dest, src] of Object.entries(BLOG_MAP)) {
+  const from = path.join(DEST, src);
+  if (!fs.existsSync(from)) {
+    console.warn("Skip blog image (missing source):", src);
+    continue;
+  }
+  fs.copyFileSync(from, path.join(DEST, dest));
+}
+
 console.log(`Copied ${copied}/${EXPECTED.length} service gallery images to public/images/`);
-console.log("Updated request-service hero + gallery images from service photos.");
+console.log("Updated request-service and blog listing images from service photos.");

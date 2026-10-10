@@ -90,10 +90,10 @@ export default async function BlogListingPage({ searchParams }: Props) {
                 <Image src={SITE_IMAGES.blog.hero[0]} alt={IMAGE_ALTS.lighting} fill className="object-cover" sizes="25vw" />
               </div>
               <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.blog.hero[1]} alt={IMAGE_ALTS.furnace} fill className="object-cover" sizes="25vw" />
+                <Image src={SITE_IMAGES.blog.hero[1]} alt={IMAGE_ALTS.hvacUnit} fill className="object-cover" sizes="25vw" />
               </div>
               <div className="relative col-span-2 aspect-[21/9] overflow-hidden rounded-2xl">
-                <Image src={SITE_IMAGES.blog.hero[2]} alt={IMAGE_ALTS.pipes} fill className="object-cover" sizes="50vw" />
+                <Image src={SITE_IMAGES.blog.hero[2]} alt={IMAGE_ALTS.plumbingRepair} fill className="object-cover" sizes="50vw" />
               </div>
             </div>
           </div>
@@ -206,7 +206,7 @@ export default async function BlogListingPage({ searchParams }: Props) {
             <Image src={SITE_IMAGES.blog.footer[0]} alt={IMAGE_ALTS.torontoSkyline} fill className="object-cover" sizes="50vw" />
           </div>
           <div className="relative aspect-[16/10] overflow-hidden rounded-3xl">
-            <Image src={SITE_IMAGES.blog.footer[1]} alt={IMAGE_ALTS.emergencyResponse} fill className="object-cover" sizes="50vw" />
+            <Image src={SITE_IMAGES.blog.footer[1]} alt={IMAGE_ALTS.van} fill className="object-cover" sizes="50vw" />
           </div>
         </Container>
       </section>
