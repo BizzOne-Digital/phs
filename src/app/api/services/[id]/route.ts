@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { Service } from "@/models/Service";
+import { PricingItem } from "@/models/PricingItem";
 import { ActivityLog } from "@/models/ActivityLog";
 import { serviceSchema } from "@/lib/validations";
-import { revalidateServices } from "@/lib/revalidate";
+import { revalidateServices, revalidatePricing } from "@/lib/revalidate";
 import { requireAdmin, handleRouteError, jsonError } from "@/lib/admin";
 import { createSlug } from "@/lib/utils";
 
@@ -52,6 +53,15 @@ export async function PUT(req: Request, ctx: Ctx) {
       entityId: id,
       summary: `Updated service ${service.name}`,
     });
+
+    // Keep the linked pricing card in sync with the service's starting price.
+    if (parsed.data.startingPriceLabel) {
+      await PricingItem.updateMany(
+        { linkedServiceSlug: service.slug },
+        { $set: { startingPrice: parsed.data.startingPriceLabel } }
+      );
+      revalidatePricing();
+    }
 
     revalidateServices(service.slug);
     return NextResponse.json({ service });

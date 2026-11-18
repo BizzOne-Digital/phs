@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { PricingItem } from "@/models/PricingItem";
+import { Service } from "@/models/Service";
 import { ActivityLog } from "@/models/ActivityLog";
 import { pricingSchema } from "@/lib/validations";
-import { revalidatePricing } from "@/lib/revalidate";
+import { revalidatePricing, revalidateServices } from "@/lib/revalidate";
 import { requireAdmin, handleRouteError, jsonError } from "@/lib/admin";
 
 type Ctx = { params: Promise<{ id: string }> };
@@ -30,6 +31,15 @@ export async function PUT(req: Request, ctx: Ctx) {
       entityId: id,
       summary: `Updated pricing card ${item.serviceName}`,
     });
+
+    // Keep the linked service's starting price label in sync.
+    if (parsed.data.startingPrice && item.linkedServiceSlug) {
+      await Service.updateMany(
+        { slug: item.linkedServiceSlug },
+        { $set: { startingPriceLabel: parsed.data.startingPrice } }
+      );
+      revalidateServices(item.linkedServiceSlug);
+    }
 
     revalidatePricing();
     return NextResponse.json({ item });

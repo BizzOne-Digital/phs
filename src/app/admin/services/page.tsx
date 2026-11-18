@@ -21,6 +21,7 @@ interface ServiceItem {
   active: boolean;
   displayOrder: number;
   shortDescription: string;
+  startingPriceLabel?: string;
 }
 
 export default function AdminServicesPage() {
@@ -28,6 +29,36 @@ export default function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [prices, setPrices] = useState<Record<string, string>>({});
+  const [savingPriceId, setSavingPriceId] = useState<string | null>(null);
+
+  async function savePrice(s: ServiceItem) {
+    const value = (prices[s._id] ?? s.startingPriceLabel ?? "").trim();
+    if (!value) {
+      toast.error("Price cannot be empty");
+      return;
+    }
+    setSavingPriceId(s._id);
+    try {
+      await adminFetch(`/api/services/${s._id}`, {
+        method: "PUT",
+        body: JSON.stringify({ startingPriceLabel: value }),
+      });
+      setServices((prev) =>
+        prev.map((x) => (x._id === s._id ? { ...x, startingPriceLabel: value } : x))
+      );
+      setPrices((prev) => {
+        const next = { ...prev };
+        delete next[s._id];
+        return next;
+      });
+      toast.success("Price updated on the website");
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Price update failed");
+    } finally {
+      setSavingPriceId(null);
+    }
+  }
 
   async function load() {
     setLoading(true);
@@ -138,7 +169,26 @@ export default function AdminServicesPage() {
                     {s.isEmergency ? " · emergency" : ""} · /{s.slug}
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <input
+                    aria-label={`Starting price for ${s.name}`}
+                    placeholder="e.g. From $99"
+                    value={prices[s._id] ?? s.startingPriceLabel ?? ""}
+                    onChange={(e) => setPrices({ ...prices, [s._id]: e.target.value })}
+                    className="w-44 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-100"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => savePrice(s)}
+                    disabled={
+                      savingPriceId === s._id ||
+                      prices[s._id] === undefined ||
+                      prices[s._id] === (s.startingPriceLabel ?? "")
+                    }
+                    className="btn-primary !px-3 !py-1.5 text-xs disabled:opacity-40"
+                  >
+                    {savingPriceId === s._id ? "Saving..." : "Save price"}
+                  </button>
                   <span
                     className={`rounded-full px-2.5 py-1 text-[11px] font-semibold ${
                       s.active
